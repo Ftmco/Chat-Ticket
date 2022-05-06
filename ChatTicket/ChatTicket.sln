@@ -17,6 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataLayer", "DataLayer", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChTi.DataBase.Entity", "ChTi.DataBase.Entity\ChTi.DataBase.Entity.csproj", "{EA7B8F48-CBB6-4594-9C24-E50E6628BAAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChTi.Service.Abstraction", "ChTi.Service.Abstraction\ChTi.Service.Abstraction.csproj", "{D439495C-9F45-4048-B81D-F4FA4B50FDA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChTi.Service.Implemention", "ChTi.Service.Implemention\ChTi.Service.Implemention.csproj", "{842ACC21-9898-4DD0-8120-FDF3F1458DF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,14 @@ Global
 		{EA7B8F48-CBB6-4594-9C24-E50E6628BAAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA7B8F48-CBB6-4594-9C24-E50E6628BAAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA7B8F48-CBB6-4594-9C24-E50E6628BAAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D439495C-9F45-4048-B81D-F4FA4B50FDA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D439495C-9F45-4048-B81D-F4FA4B50FDA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D439495C-9F45-4048-B81D-F4FA4B50FDA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D439495C-9F45-4048-B81D-F4FA4B50FDA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{842ACC21-9898-4DD0-8120-FDF3F1458DF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{842ACC21-9898-4DD0-8120-FDF3F1458DF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{842ACC21-9898-4DD0-8120-FDF3F1458DF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{842ACC21-9898-4DD0-8120-FDF3F1458DF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +58,8 @@ Global
 		{59D5F7D3-5A89-4631-B576-E383850384E5} = {69669CC4-BC70-4F2B-B08B-12A65552CA36}
 		{08AD0DB0-157F-43A8-988A-595F8AE23DD4} = {69669CC4-BC70-4F2B-B08B-12A65552CA36}
 		{EA7B8F48-CBB6-4594-9C24-E50E6628BAAB} = {08AD0DB0-157F-43A8-988A-595F8AE23DD4}
+		{D439495C-9F45-4048-B81D-F4FA4B50FDA0} = {59D5F7D3-5A89-4631-B576-E383850384E5}
+		{842ACC21-9898-4DD0-8120-FDF3F1458DF1} = {59D5F7D3-5A89-4631-B576-E383850384E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AFC318E1-AE88-42C6-A291-481960E983C8}
