@@ -13,4 +13,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ChTi.DataBase.ViewModel\ChTi.DataBase.ViewModel.csproj" />
+    <ProjectReference Include="..\ChTi.Service.Implemention\ChTi.Service.Implemention.csproj" />
+  </ItemGroup>
+
 </Project>

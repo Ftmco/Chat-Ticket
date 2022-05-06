@@ -3,23 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChTi.Web.Api", "ChTi.Web.Api\ChTi.Web.Api.csproj", "{B2CA4FC6-E7A8-46E0-9850-7516578CFCDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChTi.Web.Api", "ChTi.Web.Api\ChTi.Web.Api.csproj", "{B2CA4FC6-E7A8-46E0-9850-7516578CFCDD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{69669CC4-BC70-4F2B-B08B-12A65552CA36}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{D7CEE3E0-4469-45E4-A18D-1FAB087FCD8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChTi.Web.Grpc", "ChTi.Web.Grpc\ChTi.Web.Grpc.csproj", "{FB9162D2-E4A5-4BAE-A90B-5836A04A8B93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChTi.Web.Grpc", "ChTi.Web.Grpc\ChTi.Web.Grpc.csproj", "{FB9162D2-E4A5-4BAE-A90B-5836A04A8B93}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{59D5F7D3-5A89-4631-B576-E383850384E5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataLayer", "DataLayer", "{08AD0DB0-157F-43A8-988A-595F8AE23DD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChTi.DataBase.Entity", "ChTi.DataBase.Entity\ChTi.DataBase.Entity.csproj", "{EA7B8F48-CBB6-4594-9C24-E50E6628BAAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChTi.DataBase.Entity", "ChTi.DataBase.Entity\ChTi.DataBase.Entity.csproj", "{EA7B8F48-CBB6-4594-9C24-E50E6628BAAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChTi.Service.Abstraction", "ChTi.Service.Abstraction\ChTi.Service.Abstraction.csproj", "{D439495C-9F45-4048-B81D-F4FA4B50FDA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChTi.Service.Abstraction", "ChTi.Service.Abstraction\ChTi.Service.Abstraction.csproj", "{D439495C-9F45-4048-B81D-F4FA4B50FDA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChTi.Service.Implemention", "ChTi.Service.Implemention\ChTi.Service.Implemention.csproj", "{842ACC21-9898-4DD0-8120-FDF3F1458DF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChTi.Service.Implemention", "ChTi.Service.Implemention\ChTi.Service.Implemention.csproj", "{842ACC21-9898-4DD0-8120-FDF3F1458DF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChTi.DataBase.ViewModel", "ChTi.DataBase.ViewModel\ChTi.DataBase.ViewModel.csproj", "{24F17BA3-4CEA-4F14-BD14-BD1B555C032C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{842ACC21-9898-4DD0-8120-FDF3F1458DF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{842ACC21-9898-4DD0-8120-FDF3F1458DF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{842ACC21-9898-4DD0-8120-FDF3F1458DF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24F17BA3-4CEA-4F14-BD14-BD1B555C032C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24F17BA3-4CEA-4F14-BD14-BD1B555C032C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24F17BA3-4CEA-4F14-BD14-BD1B555C032C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24F17BA3-4CEA-4F14-BD14-BD1B555C032C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{EA7B8F48-CBB6-4594-9C24-E50E6628BAAB} = {08AD0DB0-157F-43A8-988A-595F8AE23DD4}
 		{D439495C-9F45-4048-B81D-F4FA4B50FDA0} = {59D5F7D3-5A89-4631-B576-E383850384E5}
 		{842ACC21-9898-4DD0-8120-FDF3F1458DF1} = {59D5F7D3-5A89-4631-B576-E383850384E5}
+		{24F17BA3-4CEA-4F14-BD14-BD1B555C032C} = {08AD0DB0-157F-43A8-988A-595F8AE23DD4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AFC318E1-AE88-42C6-A291-481960E983C8}

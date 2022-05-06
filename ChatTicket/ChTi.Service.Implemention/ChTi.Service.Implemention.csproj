@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Fteam.Identity.Client" Version="1.2.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ChTi.DataBase.Entity\ChTi.DataBase.Entity.csproj" />
+    <ProjectReference Include="..\ChTi.DataBase.ViewModel\ChTi.DataBase.ViewModel.csproj" />
+    <ProjectReference Include="..\ChTi.Service.Abstraction\ChTi.Service.Abstraction.csproj" />
+  </ItemGroup>
+
 </Project>
