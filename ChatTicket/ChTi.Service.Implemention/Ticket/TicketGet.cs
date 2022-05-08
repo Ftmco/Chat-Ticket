@@ -16,10 +16,13 @@ public class TicketGet : ITicketGet
 
     readonly IUserGet _userGet;
 
-    public TicketGet(IBaseQuery<Ticket> ticketQuery, IUserGet userGet)
+    readonly ITicketViewModel _ticketViewModel;
+
+    public TicketGet(IBaseQuery<Ticket> ticketQuery, IUserGet userGet, ITicketViewModel ticketViewModel)
     {
         _ticketQuery = ticketQuery;
         _userGet = userGet;
+        _ticketViewModel = ticketViewModel;
     }
 
     public ValueTask DisposeAsync()
@@ -28,7 +31,7 @@ public class TicketGet : ITicketGet
         return ValueTask.CompletedTask;
     }
 
-    public async Task<IEnumerable<Ticket>> GetTicketsAsync(HttpContext httpContext)
+    public async Task<IEnumerable<DataBase.ViewModel.TicketViewModel>> GetTicketsAsync(HttpContext httpContext)
     {
         var session = httpContext.Request.Headers["Auth-Token"];
         if (!string.IsNullOrEmpty(session))
@@ -36,12 +39,12 @@ public class TicketGet : ITicketGet
             var user = await _userGet.GetUserBySessionAsync(session);
             if (user != null)
             {
-                var tickets = await _ticketQuery.GetAllAsync(t => t.FromUserId == user.Id || t.ToUserId == user.Id);
-                return tickets;
+                var tickets = await _ticketQuery.GetAllAsync(t => (t.FromUserId == user.Id || t.ToUserId == user.Id) && t.Status != (short)TicketStatus.Deleted);
+                return await _ticketViewModel.CreateTicketViewModelAsync(tickets);
             }
-            return new List<Ticket>();
+            return new List<DataBase.ViewModel.TicketViewModel>();
         }
-        return new List<Ticket>();
+        return new List<DataBase.ViewModel.TicketViewModel>();
 
     }
 }

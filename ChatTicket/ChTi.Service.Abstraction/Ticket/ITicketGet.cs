@@ -1,4 +1,5 @@
 ﻿using ChTi.DataBase.Entity;
+using ChTi.DataBase.ViewModel;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -10,5 +11,5 @@ namespace ChTi.Service.Abstraction;
 
 public interface ITicketGet : IAsyncDisposable
 {
-    Task<IEnumerable<Ticket>> GetTicketsAsync(HttpContext httpContext);
+    Task<IEnumerable<TicketViewModel>> GetTicketsAsync(HttpContext httpContext);
 }
