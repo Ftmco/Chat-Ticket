@@ -1,5 +1,7 @@
 ﻿using Identity.Client.Rules;
 using Microsoft.AspNetCore.Http;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +20,16 @@ public class TicketAction : ITicketAction
 
     readonly IUserGet _userGet;
 
+    readonly ITicketViewModel _ticketViewModel;
+
     public TicketAction(IBaseCud<Ticket> ticketCud, IUserGet userGet, IBaseQuery<Ticket> ticketQuery,
-        IBaseCud<Attachment> attachmentCud)
+        IBaseCud<Attachment> attachmentCud, ITicketViewModel ticketViewModel)
     {
         _ticketCud = ticketCud;
         _userGet = userGet;
         _ticketQuery = ticketQuery;
         _attachmentCud = attachmentCud;
+        _ticketViewModel = ticketViewModel;
     }
 
     public async Task<AddAttachmentStatus> AddAttachmentAsync(HttpContext httpContext, AddAttachments addAttachments)
@@ -57,6 +62,28 @@ public class TicketAction : ITicketAction
         return AddAttachmentStatus.UserNotFound;
     }
 
+    public async Task<UpsertTicketStatus> ChangeTicketStatusAsync(HttpContext httpContext, Guid id,TicketStatus status)
+    {
+        var session = httpContext.Request.Headers["Auth-Token"];
+        if (!string.IsNullOrEmpty(session))
+        {
+            var user = await _userGet.GetUserBySessionAsync(session);
+            if (user != null)
+            {
+                var ticket = await _ticketQuery.GetAsync(t => t.Id == id && t.FromUserId == user.Id);
+                if (ticket != null)
+                {
+                    var update = Builders<Ticket>.Update.Set("status", (short)status);
+                    return await _ticketCud.UpdateAsync(t => t.Id == id && t.FromUserId == user.Id, update) ?
+                            UpsertTicketStatus.Success : UpsertTicketStatus.Exception;
+                }
+                return UpsertTicketStatus.TicketNotFound;
+            }
+            return UpsertTicketStatus.UserNotfound;
+        }
+        return UpsertTicketStatus.UserNotfound;
+    }
+
     public ValueTask DisposeAsync()
     {
         GC.SuppressFinalize(this);
@@ -77,10 +104,11 @@ public class TicketAction : ITicketAction
                     FromUserId = user.Id,
                     Subject = upsertTicket.Subject,
                     ToUserId = upsertTicket.ToUser,
-                    CreateDate = DateTime.Now
+                    CreateDate = DateTime.Now,
+                    Status = (short)TicketStatus.Open
                 };
                 return await _ticketCud.InsertAsync(ticket) ?
-                        new UpsertTicketResponse(UpsertTicketStatus.Success, null) :
+                        new UpsertTicketResponse(UpsertTicketStatus.Success, await _ticketViewModel.CreateTicketViewModelAsync(ticket)) :
                             new UpsertTicketResponse(UpsertTicketStatus.Exception, null);
             }
             return new UpsertTicketResponse(UpsertTicketStatus.UserNotfound, null);
