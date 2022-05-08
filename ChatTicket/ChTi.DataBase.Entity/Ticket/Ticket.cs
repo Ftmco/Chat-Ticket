@@ -21,4 +21,18 @@ public record Ticket
 
     [BsonElement("createDate")]
     public DateTime CreateDate { get; set; }
+
+    /// <summary>
+    /// Ticket Status 
+    /// <see cref="TicketStatus"/>
+    /// </summary>
+    [BsonElement("status")]
+    public short Status { get; set; }
+}
+
+public enum TicketStatus
+{
+    Open = 0,
+    Close = 1,
+    Deleted = 2
 }
