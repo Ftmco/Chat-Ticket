@@ -45,6 +45,7 @@ public static class Injector
     {
         services.AddTransient<ITicketGet, TicketGet>();
         services.AddTransient<ITicketAction, TicketAction>();
+        services.AddTransient<ITicketViewModel, TicketViewModel>();
 
         return Task.FromResult(services);
     }
