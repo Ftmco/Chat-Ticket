@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using ChTi.Service.Abstraction.Base;
@@ -45,6 +46,19 @@ public class BaseCud<TEntity> : IBaseCud<TEntity> where TEntity : class
             return true;
         }
         catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> UpdateAsync(Expression<Func<TEntity, bool>> filter, UpdateDefinition<TEntity> update)
+    {
+        try
+        {
+            await _collection.UpdateOneAsync(filter, update);
+            return true;
+        }
+        catch 
         {
             return false;
         }
