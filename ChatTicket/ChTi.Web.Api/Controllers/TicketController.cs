@@ -1,4 +1,5 @@
-﻿using ChTi.Service.Abstraction;
+﻿using ChTi.DataBase.Entity;
+using ChTi.Service.Abstraction;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,7 +35,7 @@ public class TicketController : ControllerBase
             UpsertTicketStatus.Success => Ok(Success("تیکت با موفقیت ثبت شد", "", upsert.Ticket)),
             UpsertTicketStatus.UserNotfound => Ok(Faild(403, "برای ایجاد تیکت وارد حساب خود شوید", "")),
             UpsertTicketStatus.Exception => Ok(ApiException()),
-            UpsertTicketStatus.TicketNotFound => Ok(Faild(404, "نیکت مورد نظر یافت نشد", "")),
+            UpsertTicketStatus.TicketNotFound => Ok(Faild(404, "تیکت مورد نظر یافت نشد", "")),
             _ => Ok(ApiException()),
         };
     }
@@ -47,7 +48,35 @@ public class TicketController : ControllerBase
             AddAttachmentStatus.Success => Ok(Success("پیوست با موفیت ثبت شد", "", new { })),
             AddAttachmentStatus.UserNotFound => Ok(Faild(403, "برای ایجاد تیکت وارد حساب خود شوید", "")),
             AddAttachmentStatus.Exception => Ok(ApiException()),
-            AddAttachmentStatus.TicketNotFound => Ok(Faild(404, "نیکت مورد نظر یافت نشد", "")),
+            AddAttachmentStatus.TicketNotFound => Ok(Faild(404, "تیکت مورد نظر یافت نشد", "")),
+            _ => Ok(ApiException()),
+        };
+    }
+
+    [HttpDelete("Delete")]
+    public async Task<IActionResult> DeleteAsync(Guid id)
+    {
+        UpsertTicketStatus delete = await _ticketAction.ChangeTicketStatusAsync(HttpContext, id,TicketStatus.Deleted);
+        return delete switch
+        {
+            UpsertTicketStatus.Success => Ok(Success("تیکت با موفقیت حذف شد", "", new { id })),
+            UpsertTicketStatus.UserNotfound => Ok(Faild(403, "برای ایجاد تیکت وارد حساب خود شوید", "")),
+            UpsertTicketStatus.Exception => Ok(ApiException()),
+            UpsertTicketStatus.TicketNotFound => Ok(Faild(404, "تیکت مورد نظر یافت نشد", "")),
+            _ => Ok(ApiException()),
+        };
+    }
+
+    [HttpDelete("Close")]
+    public async Task<IActionResult> CloseAsync(Guid id)
+    {
+        UpsertTicketStatus close = await _ticketAction.ChangeTicketStatusAsync(HttpContext, id, TicketStatus.Close);
+        return close switch
+        {
+            UpsertTicketStatus.Success => Ok(Success("تیکت با موفقیت بسته شد", "", new { id })),
+            UpsertTicketStatus.UserNotfound => Ok(Faild(403, "برای ایجاد تیکت وارد حساب خود شوید", "")),
+            UpsertTicketStatus.Exception => Ok(ApiException()),
+            UpsertTicketStatus.TicketNotFound => Ok(Faild(404, "تیکت مورد نظر یافت نشد", "")),
             _ => Ok(ApiException()),
         };
     }
