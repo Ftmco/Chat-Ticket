@@ -30,7 +30,6 @@ public static class Injector
 
         services.AddScoped<IBaseQuery<Ticket>, BaseQuery<Ticket>>();
         services.AddScoped<IBaseQuery<Attachment>, BaseQuery<Attachment>>();
-        services.AddScoped<IBaseQuery<Comment>, BaseQuery<Comment>>();
         return Task.FromResult(services);
     }
 
@@ -38,7 +37,6 @@ public static class Injector
     {
         services.AddScoped<IBaseCud<Ticket>, BaseCud<Ticket>>();
         services.AddScoped<IBaseCud<Attachment>, BaseCud<Attachment>>();
-        services.AddScoped<IBaseCud<Comment>, BaseCud<Comment>>();
 
         return Task.FromResult(services);
     }
