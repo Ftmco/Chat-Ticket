@@ -9,5 +9,5 @@ namespace ChTi.Service.Abstraction;
 
 public interface ICommentAction : IAsyncDisposable
 {
-    Task SendCommentAsync(SendCommentViewModel sendComment);
+
 }
