@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option csharp_namespace = "ChTi.Web.Grpc";
+
+package ticket;
+
+service Ticket{
+	rpc UpsertTicket(UpsertRequest) returns(TicketReply);
+	rpc AddAttechments(stream AddAttechmentRequest) returns(AddAttechmentReply);
+}
+
+message UpsertRequest{
+	string fromUser = 1;
+	string toUser = 2;
+	string subject = 3;
+	string text = 4;
+}
+
+message TicketReply{
+	string ticketId = 1;
+	string subject = 2;
+	string text = 3;
+	AddAttechmentReply attechments = 4;
+}
+
+message AddAttechmentRequest{
+	string base64 = 1;
+	string name = 2;
+}
+
+message AddAttechmentReply{
+	repeated Attechmet attechments = 1;
+}
+
+message Attechmet {
+	string id = 1;
+	string ticketId = 2;
+	string name = 3;
+	string fileToken = 4;
+}
