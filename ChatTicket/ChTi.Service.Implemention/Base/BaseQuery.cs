@@ -25,6 +25,18 @@ public class BaseQuery<TEntity> : IBaseQuery<TEntity> where TEntity : class
         _collection = _database.GetCollection<TEntity>(typeof(TEntity).Name);
     }
 
+    public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> any)
+    {
+        IEnumerable<TEntity>? all = await GetAllAsync(any);
+        return all.Any();
+    }
+
+    public async Task<long> CountAsync(Expression<Func<TEntity, bool>> count)
+            => await _collection.CountDocumentsAsync(count);
+
+    public async Task<long> CountAsync()
+        => await _collection.CountDocumentsAsync(new BsonDocument());
+
     public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
         IAsyncCursor<TEntity>? entities = await _collection.FindAsync(new BsonDocument());
@@ -44,7 +56,7 @@ public class BaseQuery<TEntity> : IBaseQuery<TEntity> where TEntity : class
 
     public async Task<TEntity> GetAsync(object id)
     {
-        var find = await _collection.FindAsync(new BsonDocument("id", BsonValue.Create(id)));
+        var find = await _collection.FindAsync(new BsonDocument("_id", BsonValue.Create(id)));
         return await find.SingleOrDefaultAsync();
     }
 }

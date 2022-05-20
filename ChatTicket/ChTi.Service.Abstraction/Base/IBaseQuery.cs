@@ -16,4 +16,10 @@ public interface IBaseQuery<TEntity> where TEntity : class
     Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> firstOrDefault);
 
     Task<TEntity> GetAsync(object id);
+
+    Task<bool> AnyAsync(Expression<Func<TEntity, bool>> any);
+
+    Task<long> CountAsync(Expression<Func<TEntity, bool>> count);
+
+    Task<long> CountAsync();
 }
