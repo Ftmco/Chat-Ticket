@@ -12,12 +12,12 @@ public record Attachment
     [BsonId]
     public Guid Id { get; set; }
 
-    [BsonElement("fileId")]
+    [BsonRequired, BsonElement("fileId")]
     public Guid FileId { get; set; }
 
-    [BsonElement("fileToken")]
+    [BsonRequired, BsonElement("fileToken")]
     public string FileToken { get; set; }
 
-    [BsonElement("ticketId")]
-    public Guid TicketId { get; set; }
+    [BsonRequired, BsonElement("objectId")]
+    public Guid ObjectId { get; set; }
 }
