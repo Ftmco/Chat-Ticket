@@ -1,6 +1,4 @@
-﻿using ChTi.DataBase.Entity;
-using ChTi.Service.Abstraction.Base;
-using ChTi.Service.Implemention.Base;
+﻿using ChTi.Service.Implemention.Base;
 using Identity.Client.StartUp;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +10,6 @@ public static class Injector
 {
     public static async Task<IServiceCollection> AddChTiServicesAsync(this IServiceCollection services, IConfiguration configuration)
     {
-
         services.AddSingleton<IMongoClient>((service) =>
         {
             string? connectionString = configuration.GetConnectionString("ChTi_Db");
@@ -27,9 +24,11 @@ public static class Injector
 
     public static Task<IServiceCollection> AddBaseQueryAsync(this IServiceCollection services)
     {
-
         services.AddScoped<IBaseQuery<Ticket>, BaseQuery<Ticket>>();
         services.AddScoped<IBaseQuery<Attachment>, BaseQuery<Attachment>>();
+        services.AddScoped<IBaseQuery<Chat>, BaseQuery<Chat>>();
+        services.AddScoped<IBaseQuery<ChatsUsers>, BaseQuery<ChatsUsers>>();
+        services.AddScoped<IBaseQuery<Message>, BaseQuery<Message>>();
         return Task.FromResult(services);
     }
 
@@ -37,6 +36,9 @@ public static class Injector
     {
         services.AddScoped<IBaseCud<Ticket>, BaseCud<Ticket>>();
         services.AddScoped<IBaseCud<Attachment>, BaseCud<Attachment>>();
+        services.AddScoped<IBaseCud<Chat>, BaseCud<Chat>>();
+        services.AddScoped<IBaseCud<ChatsUsers>, BaseCud<ChatsUsers>>();
+        services.AddScoped<IBaseCud<Message>, BaseCud<Message>>();
 
         return Task.FromResult(services);
     }
