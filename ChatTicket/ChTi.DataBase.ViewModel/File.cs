@@ -6,4 +6,4 @@ using System.Threading.Tasks;
 
 namespace ChTi.DataBase.ViewModel;
 
-public record UploadFileViewModel(Guid? FileId,string? FileToken);
+public record FileViewModel(Guid? FileId,string? FileToken);
