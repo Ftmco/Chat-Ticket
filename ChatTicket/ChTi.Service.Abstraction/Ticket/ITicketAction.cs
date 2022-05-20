@@ -15,5 +15,5 @@ public interface ITicketAction : IAsyncDisposable
 
     Task<AddAttachmentStatus> AddAttachmentAsync(HttpContext httpContext, AddAttachments addAttachments);
 
-    Task<UpsertTicketStatus> ChangeTicketStatusAsync(HttpContext httpContext, Guid id,TicketStatus status);
+    Task<TicketActionStatus> ChangeTicketStatusAsync(HttpContext httpContext, Guid id,TicketStatus status);
 }

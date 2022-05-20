@@ -51,7 +51,7 @@ public class TicketAction : ITicketAction
                         {
                             FileId = item.FileId ?? Guid.Empty,
                             FileToken = item.FileToken,
-                            TicketId = ticket.Id
+                            ObjectId = ticket.Id
                         });
                     return AddAttachmentStatus.Success;
                 }
@@ -62,7 +62,7 @@ public class TicketAction : ITicketAction
         return AddAttachmentStatus.UserNotFound;
     }
 
-    public async Task<UpsertTicketStatus> ChangeTicketStatusAsync(HttpContext httpContext, Guid id,TicketStatus status)
+    public async Task<TicketActionStatus> ChangeTicketStatusAsync(HttpContext httpContext, Guid id,TicketStatus status)
     {
         var session = httpContext.Request.Headers["Auth-Token"];
         if (!string.IsNullOrEmpty(session))
@@ -75,13 +75,13 @@ public class TicketAction : ITicketAction
                 {
                     var update = Builders<Ticket>.Update.Set("status", (short)status);
                     return await _ticketCud.UpdateAsync(t => t.Id == id && t.FromUserId == user.Id, update) ?
-                            UpsertTicketStatus.Success : UpsertTicketStatus.Exception;
+                            TicketActionStatus.Success : TicketActionStatus.Exception;
                 }
-                return UpsertTicketStatus.TicketNotFound;
+                return TicketActionStatus.TicketNotFound;
             }
-            return UpsertTicketStatus.UserNotfound;
+            return TicketActionStatus.UserNotfound;
         }
-        return UpsertTicketStatus.UserNotfound;
+        return TicketActionStatus.UserNotfound;
     }
 
     public ValueTask DisposeAsync()
@@ -108,11 +108,11 @@ public class TicketAction : ITicketAction
                     Status = (short)TicketStatus.Open
                 };
                 return await _ticketCud.InsertAsync(ticket) ?
-                        new UpsertTicketResponse(UpsertTicketStatus.Success, await _ticketViewModel.CreateTicketViewModelAsync(ticket)) :
-                            new UpsertTicketResponse(UpsertTicketStatus.Exception, null);
+                        new UpsertTicketResponse(TicketActionStatus.Success, await _ticketViewModel.CreateTicketViewModelAsync(ticket)) :
+                            new UpsertTicketResponse(TicketActionStatus.Exception, null);
             }
-            return new UpsertTicketResponse(UpsertTicketStatus.UserNotfound, null);
+            return new UpsertTicketResponse(TicketActionStatus.UserNotfound, null);
         }
-        return new UpsertTicketResponse(UpsertTicketStatus.UserNotfound, null);
+        return new UpsertTicketResponse(TicketActionStatus.UserNotfound, null);
     }
 }
