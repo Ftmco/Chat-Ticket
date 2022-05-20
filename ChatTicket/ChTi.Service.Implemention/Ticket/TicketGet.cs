@@ -31,6 +31,22 @@ public class TicketGet : ITicketGet
         return ValueTask.CompletedTask;
     }
 
+    public async Task<GetTicketDetial> GetTicketAsync(Guid ticketId, IHeaderDictionary headers)
+    {
+        var user = await _userGet.GetUserBySessionAsync(headers["Auth-Token"].ToString() ?? "");
+        if (user != null)
+        {
+            Ticket? ticket = await _ticketQuery.GetAsync(ticketId);
+            if (ticket != null && (ticket.FromUserId == user.Id || ticket.ToUserId == user.Id))
+            {
+                TicketDetialViewModel? ticketDetail = await _ticketViewModel.CreateTicketDetialViewModelAsync(ticket);
+                return new GetTicketDetial(TicketActionStatus.Success, ticketDetail);
+            }
+            return new GetTicketDetial(TicketActionStatus.TicketNotFound, null);
+        }
+        return new GetTicketDetial(TicketActionStatus.UserNotfound, null);
+    }
+
     public async Task<IEnumerable<DataBase.ViewModel.TicketViewModel>> GetTicketsAsync(HttpContext httpContext)
     {
         var session = httpContext.Request.Headers["Auth-Token"];

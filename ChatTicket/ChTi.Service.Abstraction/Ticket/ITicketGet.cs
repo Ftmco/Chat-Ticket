@@ -12,4 +12,6 @@ namespace ChTi.Service.Abstraction;
 public interface ITicketGet : IAsyncDisposable
 {
     Task<IEnumerable<TicketViewModel>> GetTicketsAsync(HttpContext httpContext);
+
+    Task<GetTicketDetial> GetTicketAsync(Guid ticketId, IHeaderDictionary headers);
 }
