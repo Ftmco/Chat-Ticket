@@ -16,9 +16,9 @@ public record UpsertTicketResponse(TicketActionStatus Status, TicketViewModel? T
 
 public record TicketStatusViewModel(short Code, string Name);
 
-public record TicketDetialViewModel(TicketViewModel? Ticket, UserViewModel? FromUser, UserViewModel? ToUser);
+public record TicketDetailViewModel(TicketViewModel? Ticket, UserViewModel? FromUser, UserViewModel? ToUser);
 
-public record GetTicketDetial(TicketActionStatus Status, TicketDetialViewModel? Ticket);
+public record GetTicketDetail(TicketActionStatus Status, TicketDetailViewModel? Ticket);
 
 public enum TicketActionStatus
 {

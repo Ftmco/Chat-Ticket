@@ -18,15 +18,15 @@ public class TicketViewModel : ITicketViewModel
         _userGet = userGet;
     }
 
-    public async Task<TicketDetialViewModel> CreateTicketDetialViewModelAsync(Ticket ticket)
+    public async Task<TicketDetailViewModel> CreateTicketDetailViewModelAsync(Ticket ticket)
     {
         User? fromUser = await _userGet.GetUserByIdAsync(ticket.FromUserId);
         User? toUser = await _userGet.GetUserByIdAsync(ticket.ToUserId);
-        TicketDetialViewModel ticketDetial = new(
+        TicketDetailViewModel ticketDetail = new(
             Ticket: await CreateTicketViewModelAsync(ticket),
             FromUser: await CreateUserViewModelAsync(fromUser),
             ToUser: await CreateUserViewModelAsync(toUser));
-        return ticketDetial;
+        return ticketDetail;
     }
 
     public Task<DataBase.ViewModel.TicketViewModel> CreateTicketViewModelAsync(Ticket ticket)

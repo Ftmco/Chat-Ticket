@@ -15,7 +15,7 @@ public interface ITicketViewModel : IAsyncDisposable
 
     Task<IEnumerable<TicketViewModel>> CreateTicketViewModelAsync(IEnumerable<Ticket> tickets);
 
-    Task<TicketDetialViewModel> CreateTicketDetialViewModelAsync(Ticket ticket);
+    Task<TicketDetailViewModel> CreateTicketDetailViewModelAsync(Ticket ticket);
 
     Task<UserViewModel?> CreateUserViewModelAsync(User? user);
 }

@@ -13,5 +13,5 @@ public interface ITicketGet : IAsyncDisposable
 {
     Task<IEnumerable<TicketViewModel>> GetTicketsAsync(HttpContext httpContext);
 
-    Task<GetTicketDetial> GetTicketAsync(Guid ticketId, IHeaderDictionary headers);
+    Task<GetTicketDetail> GetTicketAsync(Guid ticketId, IHeaderDictionary headers);
 }
