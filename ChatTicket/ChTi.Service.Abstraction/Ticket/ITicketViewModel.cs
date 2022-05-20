@@ -1,5 +1,6 @@
 ﻿using ChTi.DataBase.Entity;
 using ChTi.DataBase.ViewModel;
+using Identity.Client.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,4 +14,8 @@ public interface ITicketViewModel : IAsyncDisposable
     Task<TicketViewModel> CreateTicketViewModelAsync(Ticket ticket);
 
     Task<IEnumerable<TicketViewModel>> CreateTicketViewModelAsync(IEnumerable<Ticket> tickets);
+
+    Task<TicketDetialViewModel> CreateTicketDetialViewModelAsync(Ticket ticket);
+
+    Task<UserViewModel?> CreateUserViewModelAsync(User? user);
 }
