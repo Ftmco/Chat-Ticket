@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-
-namespace ChTi.DataBase.Entity;
+﻿namespace ChTi.DataBase.Entity;
 
 public record Ticket
 {

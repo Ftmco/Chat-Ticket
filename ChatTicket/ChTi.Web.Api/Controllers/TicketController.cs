@@ -1,6 +1,5 @@
 ﻿using ChTi.DataBase.Entity;
 using ChTi.Service.Abstraction;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChTi.Web.Api.Controllers;

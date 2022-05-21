@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using MongoDB.Driver;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using ChTi.Service.Abstraction.Base;
-using MongoDB.Driver;
-using MongoDB.Driver.Core;
 
 namespace ChTi.Service.Implemention.Base;
 
@@ -58,7 +51,7 @@ public class BaseCud<TEntity> : IBaseCud<TEntity> where TEntity : class
             await _collection.UpdateOneAsync(filter, update);
             return true;
         }
-        catch 
+        catch
         {
             return false;
         }

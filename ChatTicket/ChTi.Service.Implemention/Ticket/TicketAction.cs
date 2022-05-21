@@ -1,12 +1,6 @@
 ﻿using Identity.Client.Rules;
 using Microsoft.AspNetCore.Http;
-using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChTi.Service.Implemention;
 
@@ -62,7 +56,7 @@ public class TicketAction : ITicketAction
         return AddAttachmentStatus.UserNotFound;
     }
 
-    public async Task<TicketActionStatus> ChangeTicketStatusAsync(HttpContext httpContext, Guid id,TicketStatus status)
+    public async Task<TicketActionStatus> ChangeTicketStatusAsync(HttpContext httpContext, Guid id, TicketStatus status)
     {
         var session = httpContext.Request.Headers["Auth-Token"];
         if (!string.IsNullOrEmpty(session))

@@ -1,19 +1,14 @@
 ﻿using ChTi.Service.Tools.Date;
 using Identity.Client.Models;
 using Identity.Client.Rules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChTi.Service.Implemention;
 
-public class TicketViewModel : ITicketViewModel
+public class TicketViewModelService : ITicketViewModel
 {
     readonly IUserGet _userGet;
 
-    public TicketViewModel(IUserGet userGet)
+    public TicketViewModelService(IUserGet userGet)
     {
         _userGet = userGet;
     }
