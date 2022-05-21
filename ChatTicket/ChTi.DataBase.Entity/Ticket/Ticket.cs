@@ -5,27 +5,30 @@ public record Ticket
     [BsonId]
     public Guid Id { get; set; }
 
-    [BsonElement("subject")]
+    [BsonElement("subject"), BsonRequired]
     public string Subject { get; set; }
 
     [BsonElement("description")]
     public string Description { get; set; }
 
-    [BsonElement("fromUserId")]
+    [BsonElement("fromUserId"), BsonRequired]
     public Guid FromUserId { get; set; }
 
-    [BsonElement("toUserId")]
+    [BsonElement("toUserId"), BsonRequired]
     public Guid ToUserId { get; set; }
 
-    [BsonElement("createDate")]
+    [BsonElement("createDate"), BsonRequired]
     public DateTime CreateDate { get; set; }
 
     /// <summary>
     /// Ticket Status 
     /// <see cref="TicketStatus"/>
     /// </summary>
-    [BsonElement("status")]
+    [BsonElement("status"), BsonRequired]
     public short Status { get; set; }
+
+    [BsonElement("chatId")]
+    public Guid ChatId { get; set; }
 }
 
 public enum TicketStatus
