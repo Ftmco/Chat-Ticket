@@ -1,6 +1,6 @@
 ﻿namespace ChTi.DataBase.ViewModel;
 
-public record TicketViewModel(Guid Id, Guid FromId, Guid ToId, string Subject, string Description, string CreateDate, TicketStatusViewModel Status);
+public record TicketViewModel(Guid Id, Guid FromId, Guid ToId, string ChatToken, string Subject, string Description, string CreateDate, TicketStatusViewModel Status);
 
 public record UpsertTicket(Guid? Id, Guid ToUser, string Subject, string Description);
 
