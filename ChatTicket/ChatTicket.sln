@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChTi.Service.Tools", "ChTi.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Package", "Package", "{C9B56EEB-929E-487F-9CDA-D20A180497EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChTi.Client", "ChTi.Client\ChTi.Client.csproj", "{723D103D-2492-4F3C-B904-B11077B38B73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChTi.Client", "ChTi.Client\ChTi.Client.csproj", "{723D103D-2492-4F3C-B904-B11077B38B73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChTi.Web.WorkerService", "ChTi.Web.WorkerService\ChTi.Web.WorkerService.csproj", "{E9B096B5-FEF3-45B2-BFAA-2FB9BF17060E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{723D103D-2492-4F3C-B904-B11077B38B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{723D103D-2492-4F3C-B904-B11077B38B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{723D103D-2492-4F3C-B904-B11077B38B73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9B096B5-FEF3-45B2-BFAA-2FB9BF17060E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9B096B5-FEF3-45B2-BFAA-2FB9BF17060E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9B096B5-FEF3-45B2-BFAA-2FB9BF17060E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9B096B5-FEF3-45B2-BFAA-2FB9BF17060E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +90,7 @@ Global
 		{00B1C2E4-A793-4EA1-AA6E-3D53980C4A8A} = {59D5F7D3-5A89-4631-B576-E383850384E5}
 		{C9B56EEB-929E-487F-9CDA-D20A180497EB} = {69669CC4-BC70-4F2B-B08B-12A65552CA36}
 		{723D103D-2492-4F3C-B904-B11077B38B73} = {C9B56EEB-929E-487F-9CDA-D20A180497EB}
+		{E9B096B5-FEF3-45B2-BFAA-2FB9BF17060E} = {D7CEE3E0-4469-45E4-A18D-1FAB087FCD8D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AFC318E1-AE88-42C6-A291-481960E983C8}
