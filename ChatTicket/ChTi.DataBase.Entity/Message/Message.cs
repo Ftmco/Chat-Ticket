@@ -16,4 +16,7 @@ public record Message
 
     [BsonRequired, BsonElement("createDate")]
     public DateTime CreateDate { get; set; }
+
+    [BsonRequired, BsonElement("messageId")]
+    public long MessageId { get; set; }
 }
