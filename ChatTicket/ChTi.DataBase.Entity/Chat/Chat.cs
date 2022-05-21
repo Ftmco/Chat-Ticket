@@ -5,26 +5,21 @@ public record Chat
     [BsonId]
     public Guid Id { get; set; }
 
-    [BsonRequired]
-    [BsonElement("token")]
+    [BsonElement("token"), BsonRequired]
     public string Token { get; set; }
 
-    [BsonRequired]
-    [BsonElement("name")]
+    [BsonElement("name"), BsonRequired]
     public string Name { get; set; }
 
     [BsonElement("description")]
     public string Description { get; set; }
 
-    [BsonRequired]
-    [BsonElement("createDate")]
+    [BsonElement("createDate"), BsonRequired]
     public DateTime CreateDate { get; set; }
 
-    [BsonRequired]
-    [BsonElement("status")]
+    [BsonElement("status"), BsonRequired]
     public short Status { get; set; }
 
-    [BsonRequired]
-    [BsonElement("type")]
+    [BsonElement("type"), BsonRequired]
     public short Type { get; set; }
 }
