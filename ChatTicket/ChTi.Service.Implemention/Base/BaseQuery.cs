@@ -53,4 +53,13 @@ public class BaseQuery<TEntity> : IBaseQuery<TEntity> where TEntity : class
         var find = await _collection.FindAsync(new BsonDocument("_id", BsonValue.Create(id)));
         return await find.SingleOrDefaultAsync();
     }
+
+    public async Task<TEntity> MaxAsync(Expression<Func<TEntity, object>> sort, int limit = 1)
+            => await _collection.Find(new BsonDocument())
+                    .SortByDescending(sort).Limit(limit).FirstOrDefaultAsync();
+
+    public async Task<TEntity> MaxAsync(Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, object>> sort, int limit = 1)
+    {
+        
+    }
 }

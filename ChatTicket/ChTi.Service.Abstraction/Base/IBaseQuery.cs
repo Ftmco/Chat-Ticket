@@ -17,4 +17,9 @@ public interface IBaseQuery<TEntity> where TEntity : class
     Task<long> CountAsync(Expression<Func<TEntity, bool>> count);
 
     Task<long> CountAsync();
+
+    Task<TEntity> MaxAsync(Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, object>> sort, int limit = 1);
+
+    Task<TEntity> MaxAsync(Expression<Func<TEntity, object>> sort, int limit = 1);
 }
+
