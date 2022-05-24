@@ -17,6 +17,9 @@ public record Chat
     [BsonElement("createDate"), BsonRequired]
     public DateTime CreateDate { get; set; }
 
+    [BsonElement("updateDate"), BsonRequired]
+    public DateTime UpdateDate { get; set; }
+
     [BsonElement("status"), BsonRequired]
     public short Status { get; set; }
 
