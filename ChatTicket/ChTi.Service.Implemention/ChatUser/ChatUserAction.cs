@@ -8,9 +8,9 @@ namespace ChTi.Service.Implemention;
 
 public class ChatUserAction : IChatUserAction
 {
-    readonly IBaseCud<ChatsUsers> _chatsUsersCud;
+    readonly IBaseCud<ChatsUsers,ChatContext> _chatsUsersCud;
 
-    public ChatUserAction(IBaseCud<ChatsUsers> chatsUsersCud)
+    public ChatUserAction(IBaseCud<ChatsUsers, ChatContext> chatsUsersCud)
     {
         _chatsUsersCud = chatsUsersCud;
     }
@@ -38,7 +38,7 @@ public class ChatUserAction : IChatUserAction
             ChatId = addUserToChat.ChatId ?? Guid.Empty,
             UserId = addUserToChat.UserId,
             Type = (short)addUserToChat.UserType,
-            JoinDate = DateTime.Now,
+            JoinDate = DateTime.UtcNow,
         };
 
     public ValueTask DisposeAsync()

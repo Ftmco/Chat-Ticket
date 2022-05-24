@@ -6,18 +6,18 @@ namespace ChTi.Service.Implemention;
 
 public class TicketAction : ITicketAction
 {
-    readonly IBaseCud<Ticket> _ticketCud;
+    readonly IBaseCud<Ticket,TicketContext> _ticketCud;
 
-    readonly IBaseCud<Attachment> _attachmentCud;
+    readonly IBaseCud<Attachment, TicketContext> _attachmentCud;
 
-    readonly IBaseQuery<Ticket> _ticketQuery;
+    readonly IBaseQuery<Ticket, TicketContext> _ticketQuery;
 
     readonly IUserGet _userGet;
 
     readonly ITicketViewModel _ticketViewModel;
 
-    public TicketAction(IBaseCud<Ticket> ticketCud, IUserGet userGet, IBaseQuery<Ticket> ticketQuery,
-        IBaseCud<Attachment> attachmentCud, ITicketViewModel ticketViewModel)
+    public TicketAction(IBaseCud<Ticket, TicketContext> ticketCud, IUserGet userGet, IBaseQuery<Ticket, TicketContext> ticketQuery,
+        IBaseCud<Attachment, TicketContext> attachmentCud, ITicketViewModel ticketViewModel)
     {
         _ticketCud = ticketCud;
         _userGet = userGet;
@@ -67,8 +67,8 @@ public class TicketAction : ITicketAction
                 var ticket = await _ticketQuery.GetAsync(t => t.Id == id && t.FromUserId == user.Id);
                 if (ticket != null)
                 {
-                    var update = Builders<Ticket>.Update.Set("status", (short)status);
-                    return await _ticketCud.UpdateAsync(t => t.Id == id && t.FromUserId == user.Id, update) ?
+                    ticket.Status = (short)status;
+                    return await _ticketCud.UpdateAsync(ticket) ?
                             TicketActionStatus.Success : TicketActionStatus.Exception;
                 }
                 return TicketActionStatus.TicketNotFound;
@@ -98,7 +98,7 @@ public class TicketAction : ITicketAction
                     FromUserId = user.Id,
                     Subject = upsertTicket.Subject,
                     ToUserId = upsertTicket.ToUser,
-                    CreateDate = DateTime.Now,
+                    CreateDate = DateTime.UtcNow,
                     Status = (short)TicketStatus.Open
                 };
                 return await _ticketCud.InsertAsync(ticket) ?

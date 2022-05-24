@@ -8,13 +8,13 @@ public class ChatGet : IChatGet
 {
     readonly IChatViewModel _chatViewModel;
 
-    readonly IBaseQuery<Chat> _chatQuery;
+    readonly IBaseQuery<Chat, ChatContext> _chatQuery;
 
-    readonly IBaseQuery<ChatsUsers> _chatsUsersQuery;
+    readonly IBaseQuery<ChatsUsers, ChatContext> _chatsUsersQuery;
 
     readonly IUserGet _userGet;
 
-    public ChatGet(IChatViewModel chatViewModel, IBaseQuery<Chat> chatQuery, IUserGet userGet, IBaseQuery<ChatsUsers> chatsUsersQuery)
+    public ChatGet(IChatViewModel chatViewModel, IBaseQuery<Chat, ChatContext> chatQuery, IUserGet userGet, IBaseQuery<ChatsUsers, ChatContext> chatsUsersQuery)
     {
         _chatViewModel = chatViewModel;
         _chatQuery = chatQuery;

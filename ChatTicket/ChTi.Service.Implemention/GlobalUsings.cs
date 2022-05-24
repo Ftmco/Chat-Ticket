@@ -5,3 +5,4 @@ global using ChTi.Service.Abstraction.Base;
 global using MongoDB.Driver;
 global using Identity.Client.Rules;
 global using Identity.Client.Models;
+global using ChTi.DataBase.Context;

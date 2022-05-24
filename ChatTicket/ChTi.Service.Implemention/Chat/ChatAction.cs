@@ -10,18 +10,18 @@ public class ChatAction : IChatAction
 {
     readonly IUserGet _userGet;
 
-    readonly IBaseCud<Chat> _chatCud;
+    readonly IBaseCud<Chat, ChatContext> _chatCud;
 
-    readonly IBaseCud<ChatsUsers> _chatsUsersCud;
+    readonly IBaseCud<ChatsUsers, ChatContext> _chatsUsersCud;
 
-    readonly IBaseQuery<ChatsUsers> _chatsUsersQuery;
+    readonly IBaseQuery<ChatsUsers, ChatContext> _chatsUsersQuery;
 
     readonly IChatViewModel _chatViewModel;
 
     readonly IChatGet _chatGet;
 
-    public ChatAction(IUserGet userGet, IBaseCud<Chat> chatCud, IChatViewModel chatViewModel,
-        IBaseCud<ChatsUsers> chatsUsersCud, IChatGet chatGet, IBaseQuery<ChatsUsers> chatsUsersQuery)
+    public ChatAction(IUserGet userGet, IBaseCud<Chat, ChatContext> chatCud, IChatViewModel chatViewModel,
+        IBaseCud<ChatsUsers, ChatContext> chatsUsersCud, IChatGet chatGet, IBaseQuery<ChatsUsers, ChatContext> chatsUsersQuery)
     {
         _userGet = userGet;
         _chatCud = chatCud;
@@ -46,13 +46,13 @@ public class ChatAction : IChatAction
     {
         Chat chat = new()
         {
-            CreateDate = DateTime.Now,
+            CreateDate = DateTime.UtcNow,
             Description = create.Description,
             Name = create.Name,
             Status = (short)ChatStatus.Active,
             Token = 60.CreateToken(),
             Type = (short)create.Type,
-            UpdateDate = DateTime.Now
+            UpdateDate = DateTime.UtcNow
         };
         if (await _chatCud.InsertAsync(chat))
         {
@@ -73,13 +73,18 @@ public class ChatAction : IChatAction
         ChatsUsers? chatUser = await _chatsUsersQuery.GetAsync(cu => cu.ChatId == update.Id && cu.UserId == userId);
         if (chatUser != null && (chatUser.Type == (short)ChatUserType.Admin || chatUser.Type == (short)ChatUserType.Owner))
         {
-            UpdateDefinition<Chat>? updateDefinition = Builders<Chat>.Update
-                  .Set("name", update.Name).Set("description", update.Description)
-                    .Set("updateDate", DateTime.Now);
+            var chat = await _chatGet.GetChatAsync(update.Id ?? Guid.Empty);
+            if (chat != null)
+            {
+                chat.UpdateDate = DateTime.UtcNow;
+                chat.Description = update.Description;
+                chat.Name = update.Name;
 
-            return await _chatCud.UpdateAsync(c => c.Id == update.Id, updateDefinition) ?
-                    new UpsertChatResponse(ChatActionStatus.Success, await _chatGet.GetChatDetailAsync(update.Id ?? Guid.Empty)) :
-                        new UpsertChatResponse(ChatActionStatus.Exception, null);
+                return await _chatCud.UpdateAsync(chat) ?
+                  new UpsertChatResponse(ChatActionStatus.Success, await _chatGet.GetChatDetailAsync(update.Id ?? Guid.Empty)) :
+                      new UpsertChatResponse(ChatActionStatus.Exception, null);
+            }
+            return new UpsertChatResponse(ChatActionStatus.ChatNotFound, null);
         }
         return new UpsertChatResponse(ChatActionStatus.AccessDenied, null);
     }

@@ -1,29 +1,60 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace ChTi.Service.Implemention.Base;
 
-public class BaseCud<TEntity> : IBaseCud<TEntity> where TEntity : class
+public class BaseCud<TEntity, TContext> : IAsyncDisposable, IBaseCud<TEntity, TContext> where TEntity : class where TContext : DbContext
 {
-    readonly IMongoClient _client;
+    readonly TContext _context;
 
-    readonly IMongoDatabase _database;
+    readonly DbSet<TEntity> _dbSet;
 
-    readonly IMongoCollection<TEntity> _collection;
-
-    public BaseCud(IMongoClient client)
+    public BaseCud(TContext context)
     {
-        _client = client;
-        _database = _client.GetDatabase("ChTi_DB");
-        _collection = _database.GetCollection<TEntity>(typeof(TEntity).Name);
+        _context = context;
+        _dbSet = _context.Set<TEntity>();
+    }
+
+    public async Task<bool> DeleteAsync(IEnumerable<TEntity> entities)
+    {
+        try
+        {
+            _dbSet.RemoveRange(entities);
+            return await SaveAsync();
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> DeleteAsync(TEntity entity)
+    {
+        try
+        {
+            _dbSet.Remove(entity);
+            return await SaveAsync();
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> where)
+        => await DeleteAsync(await _dbSet.Where(where).ToListAsync());
+
+    public async ValueTask DisposeAsync()
+    {
+        await _context.DisposeAsync();
     }
 
     public async Task<bool> InsertAsync(TEntity entity)
     {
         try
         {
-            await _collection.InsertOneAsync(entity);
-            return true;
+            await _dbSet.AddAsync(entity);
+            return await SaveAsync();
         }
         catch
         {
@@ -35,7 +66,20 @@ public class BaseCud<TEntity> : IBaseCud<TEntity> where TEntity : class
     {
         try
         {
-            await _collection.InsertManyAsync(entities);
+            await _dbSet.AddRangeAsync(entities);
+            return await SaveAsync();
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> SaveAsync()
+    {
+        try
+        {
+            await _context.SaveChangesAsync();
             return true;
         }
         catch
@@ -44,12 +88,25 @@ public class BaseCud<TEntity> : IBaseCud<TEntity> where TEntity : class
         }
     }
 
-    public async Task<bool> UpdateAsync(Expression<Func<TEntity, bool>> filter, UpdateDefinition<TEntity> update)
+    public async Task<bool> UpdateAsync(TEntity entity)
     {
         try
         {
-            await _collection.UpdateOneAsync(filter, update);
-            return true;
+            _dbSet.Update(entity);
+            return await SaveAsync();
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> UpdateAsync(IEnumerable<TEntity> entities)
+    {
+        try
+        {
+            _dbSet.UpdateRange(entities);
+            return await SaveAsync();
         }
         catch
         {

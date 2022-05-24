@@ -5,13 +5,13 @@ namespace ChTi.Service.Implemention;
 
 public class TicketGet : ITicketGet
 {
-    readonly IBaseQuery<Ticket> _ticketQuery;
+    readonly IBaseQuery<Ticket, TicketContext> _ticketQuery;
 
     readonly IUserGet _userGet;
 
     readonly ITicketViewModel _ticketViewModel;
 
-    public TicketGet(IBaseQuery<Ticket> ticketQuery, IUserGet userGet, ITicketViewModel ticketViewModel)
+    public TicketGet(IBaseQuery<Ticket, TicketContext> ticketQuery, IUserGet userGet, ITicketViewModel ticketViewModel)
     {
         _ticketQuery = ticketQuery;
         _userGet = userGet;

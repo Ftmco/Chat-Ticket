@@ -29,7 +29,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Package", "Package", "{C9B5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChTi.Client", "ChTi.Client\ChTi.Client.csproj", "{723D103D-2492-4F3C-B904-B11077B38B73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChTi.Web.WorkerService", "ChTi.Web.WorkerService\ChTi.Web.WorkerService.csproj", "{E9B096B5-FEF3-45B2-BFAA-2FB9BF17060E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChTi.Web.WorkerService", "ChTi.Web.WorkerService\ChTi.Web.WorkerService.csproj", "{E9B096B5-FEF3-45B2-BFAA-2FB9BF17060E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChTi.DataBase.Context", "ChTi.DataBase.Context\ChTi.DataBase.Context.csproj", "{5A1B0F14-38EF-468E-989D-33ECAA7A83EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,10 @@ Global
 		{E9B096B5-FEF3-45B2-BFAA-2FB9BF17060E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9B096B5-FEF3-45B2-BFAA-2FB9BF17060E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9B096B5-FEF3-45B2-BFAA-2FB9BF17060E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A1B0F14-38EF-468E-989D-33ECAA7A83EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A1B0F14-38EF-468E-989D-33ECAA7A83EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A1B0F14-38EF-468E-989D-33ECAA7A83EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A1B0F14-38EF-468E-989D-33ECAA7A83EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +97,7 @@ Global
 		{C9B56EEB-929E-487F-9CDA-D20A180497EB} = {69669CC4-BC70-4F2B-B08B-12A65552CA36}
 		{723D103D-2492-4F3C-B904-B11077B38B73} = {C9B56EEB-929E-487F-9CDA-D20A180497EB}
 		{E9B096B5-FEF3-45B2-BFAA-2FB9BF17060E} = {D7CEE3E0-4469-45E4-A18D-1FAB087FCD8D}
+		{5A1B0F14-38EF-468E-989D-33ECAA7A83EE} = {08AD0DB0-157F-43A8-988A-595F8AE23DD4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AFC318E1-AE88-42C6-A291-481960E983C8}

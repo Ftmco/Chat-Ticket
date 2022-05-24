@@ -6,13 +6,13 @@ public class MessageViewModelService : IMessageViewModel
 {
     readonly IUserGet _userGet;
 
-    readonly IBaseQuery<Chat> _chatQuery;
+    readonly IBaseQuery<Chat, ChatContext> _chatQuery;
 
     readonly ITicketViewModel _ticketViewModel;
 
-    readonly IBaseQuery<Message> _messageQuery;
+    readonly IBaseQuery<Message, ChatContext> _messageQuery;
 
-    public MessageViewModelService(IUserGet userGet, IBaseQuery<Chat> chatQuery, ITicketViewModel ticketViewModel, IBaseQuery<Message> messageQuery)
+    public MessageViewModelService(IUserGet userGet, IBaseQuery<Chat, ChatContext> chatQuery, ITicketViewModel ticketViewModel, IBaseQuery<Message, ChatContext> messageQuery)
     {
         _userGet = userGet;
         _chatQuery = chatQuery;

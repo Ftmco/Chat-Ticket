@@ -7,13 +7,13 @@ public class TicketViewModelService : ITicketViewModel
 {
     readonly IUserGet _userGet;
 
-    readonly IBaseQuery<Chat> _chatQuery;
+    readonly IBaseQuery<Chat,ChatContext> _chatQuery;
 
-    readonly IBaseCud<Chat> _chatCud;
+    readonly IBaseCud<Chat, ChatContext> _chatCud;
 
     readonly IChatUserAction _chatUsers;
 
-    public TicketViewModelService(IUserGet userGet, IBaseQuery<Chat> chatQuery, IBaseCud<Chat> chatCud, IChatUserAction chatUsers)
+    public TicketViewModelService(IUserGet userGet, IBaseQuery<Chat, ChatContext> chatQuery, IBaseCud<Chat, ChatContext> chatCud, IChatUserAction chatUsers)
     {
         _userGet = userGet;
         _chatQuery = chatQuery;
@@ -25,13 +25,13 @@ public class TicketViewModelService : ITicketViewModel
     {
         Chat chat = new()
         {
-            CreateDate = DateTime.Now,
+            CreateDate = DateTime.UtcNow,
             Description = create.Description,
             Name = create.Name,
             Status = (short)ChatStatus.Active,
             Token = 50.CreateToken(),
             Type = (short)create.Type,
-            UpdateDate = DateTime.Now,
+            UpdateDate = DateTime.UtcNow,
         };
         if (await _chatCud.InsertAsync(chat))
         {

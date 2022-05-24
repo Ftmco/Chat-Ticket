@@ -1,65 +1,49 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace ChTi.Service.Implemention.Base;
 
-public class BaseQuery<TEntity> : IBaseQuery<TEntity> where TEntity : class
+public class BaseQuery<TEntity, TContext> : IAsyncDisposable, IBaseQuery<TEntity, TContext> where TEntity : class where TContext : DbContext
 {
-    readonly IMongoClient _client;
+    readonly TContext _context;
 
-    readonly IMongoDatabase _database;
+    readonly DbSet<TEntity> _dbSet;
 
-    readonly IMongoCollection<TEntity> _collection;
-
-    public BaseQuery(IMongoClient client)
+    public BaseQuery(TContext context)
     {
-        _client = client;
-        _database = _client.GetDatabase("ChTi_DB");
-        _collection = _database.GetCollection<TEntity>(typeof(TEntity).Name);
+        _context = context;
+        _dbSet = _context.Set<TEntity>();
     }
 
     public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> any)
+        => await _dbSet.AnyAsync(any);
+
+    public async Task<int> CountAsync()
+        => await _dbSet.CountAsync();
+
+    public async Task<int> CountAsync(Expression<Func<TEntity, bool>> count)
+        => await _dbSet.CountAsync(count);
+
+    public async ValueTask DisposeAsync()
     {
-        IEnumerable<TEntity>? all = await GetAllAsync(any);
-        return all.Any();
+        await _context.DisposeAsync();
+        GC.SuppressFinalize(this);
     }
-
-    public async Task<long> CountAsync(Expression<Func<TEntity, bool>> count)
-            => await _collection.CountDocumentsAsync(count);
-
-    public async Task<long> CountAsync()
-        => await _collection.CountDocumentsAsync(new BsonDocument());
 
     public async Task<IEnumerable<TEntity>> GetAllAsync()
-    {
-        IAsyncCursor<TEntity>? entities = await _collection.FindAsync(new BsonDocument());
-        return entities.ToEnumerable();
-    }
+        => await _dbSet.ToListAsync();
 
     public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> where)
-    {
-        IAsyncCursor<TEntity>? entities = await _collection.FindAsync(where);
-        return entities.ToEnumerable();
-    }
+        => await _dbSet.Where(where).ToListAsync();
 
-    public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> firstOrDefault)
-    {
-        return await _collection.Find(firstOrDefault).SingleOrDefaultAsync();
-    }
+    public async Task<TEntity?> GetAsync(object? id)
+        => await _dbSet.FindAsync(id);
 
-    public async Task<TEntity> GetAsync(object id)
-    {
-        var find = await _collection.FindAsync(new BsonDocument("_id", BsonValue.Create(id)));
-        return await find.SingleOrDefaultAsync();
-    }
+    public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> firstOrDefault)
+        => await _dbSet.FirstOrDefaultAsync(firstOrDefault);
 
-    public async Task<TEntity> MaxAsync(Expression<Func<TEntity, object>> sort, int limit = 1)
-            => await _collection.Find(new BsonDocument())
-                    .SortByDescending(sort).Limit(limit).FirstOrDefaultAsync();
-
-    public async Task<TEntity> MaxAsync(Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, object>> sort, int limit = 1)
+    public async Task<TEntity?> MaxAsync<TKey>(Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, TKey>> max)
     {
-        
+        return await _dbSet.Where(where).OrderByDescending(max).FirstOrDefaultAsync();
     }
 }

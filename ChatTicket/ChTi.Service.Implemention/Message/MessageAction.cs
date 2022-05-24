@@ -7,7 +7,7 @@ public class MessageAction : IMessageAction
 {
     readonly IUserGet _userGet;
 
-    readonly IBaseCud<Message> _messageCud;
+    readonly IBaseCud<Message, ChatContext> _messageCud;
 
     readonly IChatGet _chatGet;
 
@@ -15,7 +15,7 @@ public class MessageAction : IMessageAction
 
     readonly IMessageViewModel _messageViewModel;
 
-    public MessageAction(IUserGet userGet, IBaseCud<Message> messageCud, IChatGet chatGet, IMessageGet messageGet, IMessageViewModel messageViewModel)
+    public MessageAction(IUserGet userGet, IBaseCud<Message, ChatContext> messageCud, IChatGet chatGet, IMessageGet messageGet, IMessageViewModel messageViewModel)
     {
         _userGet = userGet;
         _messageCud = messageCud;
@@ -48,7 +48,7 @@ public class MessageAction : IMessageAction
                 Message message = new()
                 {
                     ChatId = chat.Id,
-                    CreateDate = DateTime.Now,
+                    CreateDate = DateTime.UtcNow,
                     MessageId = lastMessageId + 1,
                     Text = sendMessage.Text,
                     UserId = user.Id,

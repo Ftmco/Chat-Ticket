@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ChTi.DataBase.Context\ChTi.DataBase.Context.csproj" />
     <ProjectReference Include="..\ChTi.DataBase.Entity\ChTi.DataBase.Entity.csproj" />
     <ProjectReference Include="..\ChTi.DataBase.ViewModel\ChTi.DataBase.ViewModel.csproj" />
     <ProjectReference Include="..\ChTi.Service.Abstraction\ChTi.Service.Abstraction.csproj" />

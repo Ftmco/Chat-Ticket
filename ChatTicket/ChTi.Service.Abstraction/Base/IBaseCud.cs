@@ -1,13 +1,23 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace ChTi.Service.Abstraction.Base;
 
-public interface IBaseCud<TEntity> where TEntity : class
+public interface IBaseCud<TEntity, TContext> where TEntity : class where TContext : DbContext
 {
     Task<bool> InsertAsync(TEntity entity);
 
     Task<bool> InsertAsync(IEnumerable<TEntity> entities);
 
-    Task<bool> UpdateAsync(Expression<Func<TEntity, bool>> filter, UpdateDefinition<TEntity> update);
+    Task<bool> UpdateAsync(TEntity entity);
+
+    Task<bool> UpdateAsync(IEnumerable<TEntity> entities);
+
+    Task<bool> DeleteAsync(IEnumerable<TEntity> entities);
+
+    Task<bool> DeleteAsync(TEntity entity);
+
+    Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> where);
+
+    Task<bool> SaveAsync();
 }
