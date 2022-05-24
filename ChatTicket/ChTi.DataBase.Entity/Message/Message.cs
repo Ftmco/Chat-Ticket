@@ -19,4 +19,7 @@ public record Message
 
     [BsonRequired, BsonElement("messageId")]
     public long MessageId { get; set; }
+
+    [BsonElement("replyMessageId")]
+    public long ReplyMessageId { get; set; }
 }
