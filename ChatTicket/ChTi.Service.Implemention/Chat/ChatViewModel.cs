@@ -4,6 +4,14 @@ namespace ChTi.Service.Implemention;
 
 public class ChatViewModelService : IChatViewModel
 {
+    readonly IMessageGet _messageGet;
+
+
+    public ChatViewModelService(IMessageGet messageGet)
+    {
+        _messageGet = messageGet;
+    }
+
     public ChatTypeViewModel GetChatType(Chat chat)
             => new(
              Type: (ChatType)chat.Type switch
@@ -14,15 +22,20 @@ public class ChatViewModelService : IChatViewModel
              },
              Code: chat.Type);
 
-    public Task<ChatDetailViewModel?> CreateChatDetailViewModeAsync(Chat? chat)
+    public async Task<ChatDetailViewModel?> CreateChatDetailViewModeAsync(Chat? chat)
     {
+        if (chat == null)
+            return default;
+
         ChatDetailViewModel chatDetail = new(
             Id: chat.Id, Token: chat.Token,
-            Name: chat.Name, Bio: chat.Description,
+            Name: chat.Name, Description: chat.Description,
             CreateDate: chat.CreateDate.ToShamsi(),
-            0, GetChatType(chat), null);
+            UpdateDate: chat.UpdateDate.ToShamsi(),
+            LastMessageId: await _messageGet.GetLastMessageIdAsync(chat.Id),
+            GetChatType(chat), null);
 
-        return Task.FromResult(chatDetail);
+        return chatDetail;
     }
 
     public async Task<IEnumerable<ChatDetailViewModel>> CreateChatDetailViewModeAsync(IEnumerable<Chat> chats)
