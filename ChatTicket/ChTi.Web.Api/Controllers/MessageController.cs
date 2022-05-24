@@ -6,16 +6,36 @@ namespace ChTi.Web.Api.Controllers;
 [ApiController]
 public class MessageController : ControllerBase
 {
-    [HttpGet("GetMessages")]
-    public async Task<IActionResult> GetMessagesAsync(Guid chatId, long lastMessageId)
+    readonly IMessageGet _messageGet;
+
+    readonly IMessageAction _messageAction;
+
+    public MessageController(IMessageGet messageGet, IMessageAction messageAction)
     {
-        return Ok();
+        _messageGet = messageGet;
+        _messageAction = messageAction;
+    }
+
+    [HttpGet("GetMessages")]
+    public async Task<IActionResult> GetMessagesAsync(string chatToken, long lastMessageId)
+    {
+        IEnumerable<MessageViewModel> messages = await _messageGet.GetMessagesAsync(chatToken, lastMessageId);
+        return Ok(Success("", "", messages));
     }
 
     [HttpPost("SendMessage")]
-    public async Task<IActionResult> SendMessageAsync()
+    public async Task<IActionResult> SendMessageAsync(SendMessageViewModel sendMessage)
     {
-        return Ok();
+        SendMessageResponse message = await _messageAction.SendMessageAsync(sendMessage, Request.Headers);
+        return message.Status switch
+        {
+            MessageActionStatus.Success => Ok(Success("پیام با موفقیت ارسال شد", "", message.Message)),
+            MessageActionStatus.AccessDenied => Ok(Faild(403, "شما برای ارسال پیام به این گفتگو دسترسی ندارید", "")),
+            MessageActionStatus.Exception => Ok(ApiException()),
+            MessageActionStatus.MessageNotFound => Ok(Faild(404, "پیام مورد نظر یافت نشد", "")),
+            MessageActionStatus.ChatNotFound => Ok(Faild(404, "گفتگو یافت نشد", "")),
+            _ => Ok(ApiException()),
+        };
     }
 
     [HttpPut("UpdateMessage")]
