@@ -1,6 +1,5 @@
 ﻿using ChTi.Service.Tools.Date;
-using Identity.Client.Models;
-using Identity.Client.Rules;
+using Identity.Service.Tools.Code;
 
 namespace ChTi.Service.Implemention;
 
@@ -8,9 +7,43 @@ public class TicketViewModelService : ITicketViewModel
 {
     readonly IUserGet _userGet;
 
-    public TicketViewModelService(IUserGet userGet)
+    readonly IBaseQuery<Chat> _chatQuery;
+
+    readonly IBaseCud<Chat> _chatCud;
+
+    readonly IChatUserAction _chatUsers;
+
+    public TicketViewModelService(IUserGet userGet, IBaseQuery<Chat> chatQuery, IBaseCud<Chat> chatCud, IChatUserAction chatUsers)
     {
         _userGet = userGet;
+        _chatQuery = chatQuery;
+        _chatCud = chatCud;
+        _chatUsers = chatUsers;
+    }
+
+    public async Task<Chat?> CreateChatAsync(UpsertChatViewModel create, IEnumerable<AddUserToChatViewModel> addUserToChat)
+    {
+        Chat chat = new()
+        {
+            CreateDate = DateTime.Now,
+            Description = create.Description,
+            Name = create.Name,
+            Status = (short)ChatStatus.Active,
+            Token = 50.CreateToken(),
+            Type = (short)create.Type,
+            UpdateDate = DateTime.Now,
+        };
+        if (await _chatCud.InsertAsync(chat))
+        {
+            foreach (var user in addUserToChat)
+                if (user.ChatId == null)
+                    await _chatUsers.AddUserToChatAsync(user with { ChatId = chat.Id });
+                else
+                    await _chatUsers.AddUserToChatAsync(user);
+
+            return chat;
+        }
+        return null;
     }
 
     public async Task<TicketDetailViewModel> CreateTicketDetailViewModelAsync(Ticket ticket)
@@ -24,12 +57,23 @@ public class TicketViewModelService : ITicketViewModel
         return ticketDetail;
     }
 
-    public Task<DataBase.ViewModel.TicketViewModel> CreateTicketViewModelAsync(Ticket ticket)
+    public async Task<TicketViewModel> CreateTicketViewModelAsync(Ticket ticket)
     {
-        DataBase.ViewModel.TicketViewModel viewModel = new(
+        Chat? chat = await _chatQuery.GetAsync(ticket.ChatId);
+        if (chat == null)
+        {
+            chat = await CreateChatAsync(new(Id: null, Name: ticket.Subject,
+                Description: ticket.Description, Type: ChatType.Pv), new List<AddUserToChatViewModel>
+                {
+                    new(ChatId:null,ticket.FromUserId,ChatUserType.Owner),
+                    new(ChatId:null,ticket.ToUserId,ChatUserType.User),
+                });
+        }
+        TicketViewModel viewModel = new(
             Id: ticket.Id,
             FromId: ticket.FromUserId,
             ToId: ticket.ToUserId, Subject: ticket.Subject,
+            ChatToken: chat?.Token ?? "",
             Description: ticket.Description,
             CreateDate: ticket.CreateDate.ToShamsi(),
             Status: new(ticket.Status, (TicketStatus)ticket.Status switch
@@ -38,7 +82,7 @@ public class TicketViewModelService : ITicketViewModel
                 TicketStatus.Close => "بسته شده",
                 _ => "باز"
             }));
-        return Task.FromResult(viewModel);
+        return viewModel;
     }
 
     public async Task<IEnumerable<DataBase.ViewModel.TicketViewModel>> CreateTicketViewModelAsync(IEnumerable<Ticket> tickets)

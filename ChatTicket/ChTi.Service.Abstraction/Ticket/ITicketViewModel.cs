@@ -13,4 +13,6 @@ public interface ITicketViewModel : IAsyncDisposable
     Task<TicketDetailViewModel> CreateTicketDetailViewModelAsync(Ticket ticket);
 
     Task<UserViewModel?> CreateUserViewModelAsync(User? user);
+
+    Task<Chat?> CreateChatAsync(UpsertChatViewModel create, IEnumerable<AddUserToChatViewModel> addUserToChat);
 }
