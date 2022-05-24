@@ -2,15 +2,15 @@
 
 public record Attachment
 {
-    [BsonId]
+    [Key]
     public Guid Id { get; set; }
 
-    [BsonRequired, BsonElement("fileId")]
+    [Required]
     public Guid FileId { get; set; }
 
-    [BsonRequired, BsonElement("fileToken")]
+    [Required]
     public string FileToken { get; set; }
 
-    [BsonRequired, BsonElement("objectId")]
+    [Required]
     public Guid ObjectId { get; set; }
 }

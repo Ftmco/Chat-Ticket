@@ -2,32 +2,31 @@
 
 public record Ticket
 {
-    [BsonId]
+    [Key]
     public Guid Id { get; set; }
 
-    [BsonElement("subject"), BsonRequired]
+    [Required]
     public string Subject { get; set; }
 
-    [BsonElement("description")]
     public string Description { get; set; }
 
-    [BsonElement("fromUserId"), BsonRequired]
+    [Required]
     public Guid FromUserId { get; set; }
 
-    [BsonElement("toUserId"), BsonRequired]
+    [Required]
     public Guid ToUserId { get; set; }
 
-    [BsonElement("createDate"), BsonRequired]
+    [Required]
     public DateTime CreateDate { get; set; }
 
     /// <summary>
     /// Ticket Status 
     /// <see cref="TicketStatus"/>
     /// </summary>
-    [BsonElement("status"), BsonRequired]
+    [Required]
     public short Status { get; set; }
 
-    [BsonElement("chatId")]
+    [Required]
     public Guid ChatId { get; set; }
 }
 

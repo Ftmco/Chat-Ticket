@@ -7,18 +7,22 @@ public class TicketViewModelService : ITicketViewModel
 {
     readonly IUserGet _userGet;
 
-    readonly IBaseQuery<Chat,ChatContext> _chatQuery;
+    readonly IBaseQuery<Chat, ChatContext> _chatQuery;
 
     readonly IBaseCud<Chat, ChatContext> _chatCud;
 
+    readonly IBaseCud<Ticket, TicketContext> _ticketCud;
+
     readonly IChatUserAction _chatUsers;
 
-    public TicketViewModelService(IUserGet userGet, IBaseQuery<Chat, ChatContext> chatQuery, IBaseCud<Chat, ChatContext> chatCud, IChatUserAction chatUsers)
+    public TicketViewModelService(IUserGet userGet, IBaseQuery<Chat, ChatContext> chatQuery, IBaseCud<Chat, ChatContext> chatCud,
+        IBaseCud<Ticket, TicketContext> ticketCud, IChatUserAction chatUsers)
     {
         _userGet = userGet;
         _chatQuery = chatQuery;
         _chatCud = chatCud;
         _chatUsers = chatUsers;
+        _ticketCud = ticketCud;
     }
 
     public async Task<Chat?> CreateChatAsync(UpsertChatViewModel create, IEnumerable<AddUserToChatViewModel> addUserToChat)
@@ -68,6 +72,8 @@ public class TicketViewModelService : ITicketViewModel
                     new(ChatId:null,ticket.FromUserId,ChatUserType.Owner),
                     new(ChatId:null,ticket.ToUserId,ChatUserType.User),
                 });
+            ticket.ChatId = chat.Id;
+            var update = await _ticketCud.UpdateAsync(ticket);
         }
         TicketViewModel viewModel = new(
             Id: ticket.Id,

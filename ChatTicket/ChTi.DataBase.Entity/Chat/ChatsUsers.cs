@@ -2,18 +2,18 @@
 
 public record ChatsUsers
 {
-    [BsonId]
+    [Key]
     public Guid Id { get; set; }
 
-    [BsonRequired, BsonElement("chatId")]
+    [Required]
     public Guid ChatId { get; set; }
 
-    [BsonRequired, BsonElement("userId")]
+    [Required]
     public Guid UserId { get; set; }
 
-    [BsonRequired, BsonElement("type")]
+    [Required]
     public short Type { get; set; }
 
-    [BsonRequired,BsonElement("joinDate")]
+    [Required]
     public DateTime JoinDate { get; set; }
 }

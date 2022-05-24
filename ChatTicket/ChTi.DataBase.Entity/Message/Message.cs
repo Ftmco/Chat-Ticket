@@ -2,24 +2,22 @@
 
 public record Message
 {
-    [BsonId]
+    [Key]
     public Guid Id { get; set; }
 
-    [BsonRequired, BsonElement("userId")]
+    [Required]
     public Guid UserId { get; set; }
 
-    [BsonRequired, BsonElement("chatId")]
+    [Required]
     public Guid ChatId { get; set; }
-
-    [BsonElement("text")]
+       
     public string Text { get; set; }
 
-    [BsonRequired, BsonElement("createDate")]
+    [Required]
     public DateTime CreateDate { get; set; }
 
-    [BsonRequired, BsonElement("messageId")]
+    [Required]
     public long MessageId { get; set; }
 
-    [BsonElement("replyMessageId")]
     public long ReplyMessageId { get; set; }
 }
