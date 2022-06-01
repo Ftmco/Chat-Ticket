@@ -7,7 +7,11 @@ public interface IBaseQuery<TEntity, TContext> where TEntity : class where TCont
 {
     Task<IEnumerable<TEntity>> GetAllAsync();
 
+    Task<IEnumerable<TEntity>> GetAllAsync(int skip, int take);
+
     Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> where);
+
+    Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> where,int skip,int take);
 
     Task<TEntity?> GetAsync(object? id);
 
