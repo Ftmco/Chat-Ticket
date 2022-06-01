@@ -1,4 +1,5 @@
 ﻿using Identity.Client.Rules;
+using Identity.Service.Tools.Code;
 using Microsoft.AspNetCore.Http;
 using MongoDB.Driver;
 
@@ -6,7 +7,7 @@ namespace ChTi.Service.Implemention;
 
 public class TicketAction : ITicketAction
 {
-    readonly IBaseCud<Ticket,TicketContext> _ticketCud;
+    readonly IBaseCud<Ticket, TicketContext> _ticketCud;
 
     readonly IBaseCud<Attachment, TicketContext> _attachmentCud;
 
@@ -99,7 +100,9 @@ public class TicketAction : ITicketAction
                     Subject = upsertTicket.Subject,
                     ToUserId = upsertTicket.ToUser,
                     CreateDate = DateTime.UtcNow,
-                    Status = (short)TicketStatus.Open
+                    Status = (short)TicketStatus.Open,
+                    Code = 6.CreateCode(),
+                    Token = 50.CreateToken()
                 };
                 return await _ticketCud.InsertAsync(ticket) ?
                         new UpsertTicketResponse(TicketActionStatus.Success, await _ticketViewModel.CreateTicketViewModelAsync(ticket)) :
