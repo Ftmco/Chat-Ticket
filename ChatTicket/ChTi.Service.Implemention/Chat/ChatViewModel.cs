@@ -6,7 +6,6 @@ public class ChatViewModelService : IChatViewModel
 {
     readonly IMessageGet _messageGet;
 
-
     public ChatViewModelService(IMessageGet messageGet)
     {
         _messageGet = messageGet;
@@ -33,6 +32,7 @@ public class ChatViewModelService : IChatViewModel
             CreateDate: chat.CreateDate.ToShamsi(),
             UpdateDate: chat.UpdateDate.ToShamsi(),
             LastMessageId: await _messageGet.GetLastMessageIdAsync(chat.Id),
+            MessageCount: await _messageGet.MessageCountAsync(chat.Id),
             GetChatType(chat), null);
 
         return chatDetail;
