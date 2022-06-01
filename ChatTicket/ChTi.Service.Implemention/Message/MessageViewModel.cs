@@ -20,15 +20,15 @@ public class MessageViewModelService : IMessageViewModel
         _messageQuery = messageQuery;
     }
 
-    public async Task<IEnumerable<MessageViewModel>> CreateMessageViewModelAsync(IEnumerable<Message> messages)
+    public async Task<IEnumerable<MessageViewModel>> CreateMessageViewModelAsync(IEnumerable<Message> messages, User clientUser)
     {
         List<MessageViewModel> messageViewModels = new();
         foreach (var message in messages)
-            messageViewModels.Add(await CreateMessageViewModelAsync(message));
+            messageViewModels.Add(await CreateMessageViewModelAsync(message, clientUser));
         return messageViewModels;
     }
 
-    public async Task<MessageViewModel> CreateMessageViewModelAsync(Message message)
+    public async Task<MessageViewModel> CreateMessageViewModelAsync(Message message, User clientUser)
     {
         Chat? chat = await _chatQuery.GetAsync(message.ChatId);
         User? user = await _userGet.GetUserByIdAsync(message.UserId);
@@ -42,6 +42,7 @@ public class MessageViewModelService : IMessageViewModel
             ReplyMessageId: message.ReplyMessageId,
             ReplyCount: await _messageQuery.CountAsync(m => m.ReplyMessageId == message.MessageId),
             User: await _ticketViewModel.CreateUserViewModelAsync(user));
+        messageViewModel.IsSender = clientUser.Id == user?.Id;
         return messageViewModel;
     }
 

@@ -56,7 +56,7 @@ public class MessageAction : IMessageAction
                 };
                 if (await _messageCud.InsertAsync(message))
                 {
-                    return new SendMessageResponse(MessageActionStatus.Success, await _messageViewModel.CreateMessageViewModelAsync(message));
+                    return new SendMessageResponse(MessageActionStatus.Success, await _messageViewModel.CreateMessageViewModelAsync(message, user));
                 }
                 return new SendMessageResponse(MessageActionStatus.Exception, null);
             }
