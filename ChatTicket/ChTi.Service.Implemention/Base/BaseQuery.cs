@@ -36,6 +36,12 @@ public class BaseQuery<TEntity, TContext> : IAsyncDisposable, IBaseQuery<TEntity
     public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> where)
         => await _dbSet.Where(where).ToListAsync();
 
+    public async Task<IEnumerable<TEntity>> GetAllAsync(int skip, int take)
+        => await _dbSet.Skip(skip).Take(take).ToListAsync();
+
+    public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> where, int skip, int take)
+        => await _dbSet.Where(where).Skip(skip).Take(take).ToListAsync();
+
     public async Task<TEntity?> GetAsync(object? id)
         => await _dbSet.FindAsync(id);
 
