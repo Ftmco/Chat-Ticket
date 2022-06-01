@@ -4,7 +4,10 @@ public record SendMessageViewModel(string ChatToken, string Text, long? ReplyMes
 
 public record MessageViewModel(Guid Id, long MessageId, string? ChatToken,
     string Text, string SendDate, string SendTime,
-    long? ReplyMessageId, long ReplyCount, UserViewModel? User);
+    long? ReplyMessageId, long ReplyCount, UserViewModel? User)
+{
+    public bool IsSender { get; set; }
+}
 
 public record SendMessageResponse(MessageActionStatus Status, MessageViewModel? Message);
 
