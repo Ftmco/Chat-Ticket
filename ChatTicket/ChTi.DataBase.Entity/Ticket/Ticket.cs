@@ -11,6 +11,12 @@ public record Ticket
     public string Description { get; set; }
 
     [Required]
+    public string Code { get; set; }
+
+    [Required]
+    public string Token { get; set; }
+
+    [Required]
     public Guid FromUserId { get; set; }
 
     [Required]
