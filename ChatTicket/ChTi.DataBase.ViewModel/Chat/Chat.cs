@@ -2,7 +2,7 @@
 
 public record ChatDetailViewModel(Guid Id, string Token, string Name, string Description,
     string CreateDate, string UpdateDate, long LastMessageId,
-        ChatTypeViewModel Type, IEnumerable<FileViewModel>? Avatars);
+    long MessageCount, ChatTypeViewModel Type, IEnumerable<FileViewModel>? Avatars);
 
 public record UpsertChatViewModel(Guid? Id, string Name, string Description, ChatType Type);
 
@@ -10,7 +10,7 @@ public record UpsertChatResponse(ChatActionStatus Status, ChatDetailViewModel? C
 
 public record ChatTypeViewModel(string Type, short Code);
 
-public record AddUserToChatViewModel(Guid? ChatId,Guid UserId, ChatUserType UserType);
+public record AddUserToChatViewModel(Guid? ChatId, Guid UserId, ChatUserType UserType);
 
 public enum ChatType
 {
