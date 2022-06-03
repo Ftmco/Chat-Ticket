@@ -29,13 +29,7 @@ public static class Injector
             TicketContext.ConnectionString = cnn;
             options.UseNpgsql(cnn);
         });
-        services.AddDbContext<CommentContext>(options =>
-        {
-            var cnn = configuration.GetConnectionString("Comment_Db");
-            CommentContext.ConnectionString = cnn;
-            options.UseNpgsql(cnn);
-        });
-
+       
         await services.AddBaseCudAsync();
         await services.AddBaseQueryAsync();
         await services.AddServicesAsync();
@@ -51,7 +45,6 @@ public static class Injector
         services.AddScoped<IBaseQuery<Chat, ChatContext>, BaseQuery<Chat, ChatContext>>();
         services.AddScoped<IBaseQuery<ChatsUsers, ChatContext>, BaseQuery<ChatsUsers, ChatContext>>();
         services.AddScoped<IBaseQuery<Message, ChatContext>, BaseQuery<Message, ChatContext>>();
-        services.AddScoped<IBaseQuery<Comment, CommentContext>, BaseQuery<Comment, CommentContext>>();
         return Task.FromResult(services);
     }
 
@@ -63,7 +56,6 @@ public static class Injector
         services.AddScoped<IBaseCud<Chat, ChatContext>, BaseCud<Chat, ChatContext>>();
         services.AddScoped<IBaseCud<ChatsUsers, ChatContext>, BaseCud<ChatsUsers, ChatContext>>();
         services.AddScoped<IBaseCud<Message, ChatContext>, BaseCud<Message, ChatContext>>();
-        services.AddScoped<IBaseCud<Comment, CommentContext>, BaseCud<Comment, CommentContext>>();
 
         return Task.FromResult(services);
     }
@@ -85,10 +77,6 @@ public static class Injector
         //services.AddTransient<IMessageGet, MessageGet>();
         services.AddTransient<IChatUserAction, ChatUserAction>();
         //services.AddTransient<IMessageViewModel, MessageViewModelService>();
-
-        services.AddTransient<ICommentGet, CommentGet>();
-        services.AddTransient<ICommentAction, CommentAction>();
-        services.AddTransient<ICommentViewModel, CommentViewModelService>();
 
         return Task.FromResult(services);
     }
