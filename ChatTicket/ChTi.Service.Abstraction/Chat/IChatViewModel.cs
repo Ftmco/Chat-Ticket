@@ -2,9 +2,9 @@
 
 public interface IChatViewModel : IAsyncDisposable
 {
-    Task<ChatDetailViewModel?> CreateChatDetailViewModeAsync(Chat? chat);
+    Task<ChatDetailViewModel?> CreateChatDetailViewModeAsync(ChatBase? chat);
 
-    Task<IEnumerable<ChatDetailViewModel>> CreateChatDetailViewModeAsync(IEnumerable<Chat> chats);
+    Task<IEnumerable<ChatDetailViewModel>> CreateChatDetailViewModeAsync(IEnumerable<ChatBase> chats);
 
-    ChatTypeViewModel GetChatType(Chat chat);
+    ChatTypeViewModel GetChatType(ChatBase chat);
 }

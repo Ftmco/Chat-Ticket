@@ -6,13 +6,13 @@ public class MessageViewModelService : IMessageViewModel
 {
     readonly IUserGet _userGet;
 
-    readonly IBaseQuery<Chat, ChatContext> _chatQuery;
+    readonly IBaseQuery<ChatBase, ChatContext> _chatQuery;
 
     readonly ITicketViewModel _ticketViewModel;
 
     readonly IBaseQuery<Message, ChatContext> _messageQuery;
 
-    public MessageViewModelService(IUserGet userGet, IBaseQuery<Chat, ChatContext> chatQuery, ITicketViewModel ticketViewModel, IBaseQuery<Message, ChatContext> messageQuery)
+    public MessageViewModelService(IUserGet userGet, IBaseQuery<ChatBase, ChatContext> chatQuery, ITicketViewModel ticketViewModel, IBaseQuery<Message, ChatContext> messageQuery)
     {
         _userGet = userGet;
         _chatQuery = chatQuery;
@@ -30,7 +30,7 @@ public class MessageViewModelService : IMessageViewModel
 
     public async Task<MessageViewModel> CreateMessageViewModelAsync(Message message, User clientUser)
     {
-        Chat? chat = await _chatQuery.GetAsync(message.ChatId);
+        ChatBase? chat = await _chatQuery.GetAsync(message.ChatId);
         User? user = await _userGet.GetUserByIdAsync(message.UserId);
         MessageViewModel messageViewModel = new(
             Id: message.Id,

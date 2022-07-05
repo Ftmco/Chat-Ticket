@@ -1,6 +1,6 @@
 ﻿namespace ChTi.DataBase.Entity;
 
-public record Chat
+public record PvChat
 {
     [Key]
     public Guid Id { get; set; }
@@ -9,9 +9,10 @@ public record Chat
     public Guid ChatBaseId { get; set; }
 
     [Required]
-    public string Name { get; set; }
+    public Guid StarterUserId { get; set; }
 
-    public string Description { get; set; }
+    [Required]
+    public Guid OppsiteUserId { get; set; }
 
     //Relationships
     //Navigation Property

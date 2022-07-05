@@ -38,7 +38,7 @@ public class MessageAction : IMessageAction
             if (user == null)
                 return new SendMessageResponse(MessageActionStatus.AccessDenied, null);
 
-            Chat? chat = await _chatGet.GetChatAsync(sendMessage.ChatToken);
+            ChatBase? chat = await _chatGet.GetChatAsync(sendMessage.ChatToken);
             if (chat == null)
                 return new SendMessageResponse(MessageActionStatus.ChatNotFound, null);
 
