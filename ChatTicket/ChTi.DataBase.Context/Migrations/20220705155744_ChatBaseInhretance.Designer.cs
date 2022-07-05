@@ -3,6 +3,7 @@ using System;
 using ChTi.DataBase.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ChTi.DataBase.Context.Migrations
 {
     [DbContext(typeof(ChatContext))]
-    partial class ChatContextModelSnapshot : ModelSnapshot
+    [Migration("20220705155744_ChatBaseInhretance")]
+    partial class ChatBaseInhretance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +45,7 @@ namespace ChTi.DataBase.Context.Migrations
                     b.ToTable("Attachment");
                 });
 
-            modelBuilder.Entity("ChTi.DataBase.Entity.Chat", b =>
+            modelBuilder.Entity("ChTi.DataBase.Entity.ChatBase", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -52,10 +54,7 @@ namespace ChTi.DataBase.Context.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -66,15 +65,14 @@ namespace ChTi.DataBase.Context.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<short>("Type")
-                        .HasColumnType("smallint");
-
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Chat");
+                    b.ToTable("ChatBase");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("ChatBase");
                 });
 
             modelBuilder.Entity("ChTi.DataBase.Entity.ChatsUsers", b =>
@@ -129,14 +127,26 @@ namespace ChTi.DataBase.Context.Migrations
                     b.ToTable("Message");
                 });
 
+            modelBuilder.Entity("ChTi.DataBase.Entity.Chat", b =>
+                {
+                    b.HasBaseType("ChTi.DataBase.Entity.ChatBase");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<short>("Type")
+                        .HasColumnType("smallint");
+
+                    b.HasDiscriminator().HasValue("Chat");
+                });
+
             modelBuilder.Entity("ChTi.DataBase.Entity.PvChat", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.HasBaseType("ChTi.DataBase.Entity.Chat");
 
                     b.Property<Guid>("OppsiteUserId")
                         .HasColumnType("uuid");
@@ -144,19 +154,7 @@ namespace ChTi.DataBase.Context.Migrations
                     b.Property<Guid>("StarterUserId")
                         .HasColumnType("uuid");
 
-                    b.Property<short>("Status")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PvChat");
+                    b.HasDiscriminator().HasValue("PvChat");
                 });
 #pragma warning restore 612, 618
         }
