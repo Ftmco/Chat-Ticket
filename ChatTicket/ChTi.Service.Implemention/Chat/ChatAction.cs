@@ -11,7 +11,7 @@ public class ChatAction : IChatAction
     readonly IUserGet _userGet;
 
     readonly IBaseCud<Chat, ChatContext> _ChatCud;
-    
+
 
     readonly IBaseCud<PvChat, ChatContext> _pvChatCud;
 
@@ -90,9 +90,20 @@ public class ChatAction : IChatAction
 
         if (pvChat == null)
         {
-           
+            pvChat = new()
+            {
+                CreateDate = DateTime.UtcNow,
+                UpdateDate = DateTime.UtcNow,
+                StarterUserId = user.Id,
+                OppsiteUserId = oppsiteUser.Id,
+                Status = (short)ChatStatus.Active,
+                Token = $"PV-{60.CreateToken()}"
+            };
+            if (!await _pvChatCud.InsertAsync(pvChat))
+                return new PvChatResponse(ChatActionStatus.Exception, null);
         }
-        return new PvChatResponse(ChatActionStatus.UserNotFound, null);
+
+        return new PvChatResponse(ChatActionStatus.Success, await _chatViewModel.CreatePvChatDetailViewModelAsync(user, oppsiteUser, pvChat));
     }
 
     public async Task<UpsertChatResponse> UpdateAsync(UpsertChatViewModel update, Guid userId)
