@@ -6,9 +6,12 @@ public class ChatViewModelService : IChatViewModel
 {
     readonly IMessageGet _messageGet;
 
-    public ChatViewModelService(IMessageGet messageGet)
+    readonly IUserGet _userGet;
+
+    public ChatViewModelService(IMessageGet messageGet, IUserGet userGet)
     {
         _messageGet = messageGet;
+        _userGet = userGet;
     }
 
     public ChatTypeViewModel GetChatType(Chat chat)
@@ -31,8 +34,8 @@ public class ChatViewModelService : IChatViewModel
             Name: chat.Name, Description: chat.Description,
             CreateDate: chat.CreateDate.ToShamsi(),
             UpdateDate: chat.UpdateDate.ToShamsi(),
-            LastMessageId: await _messageGet.GetLastMessageIdAsync(chat.Id),
-            MessageCount: await _messageGet.MessageCountAsync(chat.Id),
+            LastMessageId: await _messageGet.GetLastMessageIdAsync(chat.Id, ChatType.Group),
+            MessageCount: await _messageGet.MessageCountAsync(chat.Id, ChatType.Group),
             GetChatType(chat), null);
 
         return chatDetail;
@@ -54,5 +57,43 @@ public class ChatViewModelService : IChatViewModel
     {
         GC.SuppressFinalize(this);
         return ValueTask.CompletedTask;
-    }   
+    }
+
+    public async Task<PvChatDetailViewModel> CreatePvChatDetailViewModelAsync(User currentUser, User oppsiteUser, PvChat? chat)
+    {
+        if (chat == null)
+            return default;
+
+        IEnumerable<Avatar>? userProfile = await _userGet.GetUserAvatarsAsync(oppsiteUser.Id, false);
+
+        PvChatDetailViewModel pvChat = new(
+            Id: chat.Id,
+            Token: chat.Token, Name: oppsiteUser.FullName, MobileNo: oppsiteUser.MobileNo, Email: oppsiteUser.Email,
+            CreateDate: chat.CreateDate.ToShamsi(), UpdateDate: chat.UpdateDate.ToShamsi(),
+            LastMessageId: await _messageGet.GetLastMessageIdAsync(chat.Id, ChatType.Pv),
+            MessageCount: await _messageGet.MessageCountAsync(chat.Id, ChatType.Pv),
+            Avatars: userProfile.Select(up => new FileViewModel(up.FileId, up.FileToken)));
+
+        return pvChat;
+    }
+
+    public async Task<IEnumerable<PvChatDetailViewModel>> CreatePvChatDetailViewModelAsync(User currentUser, IEnumerable<PvChat>? chats)
+    {
+        List<PvChatDetailViewModel> result = new();
+        foreach (var chat in chats)
+        {
+            var oppsiteUser = await _userGet.GetUserByIdAsync(chat.OppsiteUserId);
+            result.Add(await CreatePvChatDetailViewModelAsync(currentUser, oppsiteUser, chat));
+        }
+        return result;
+    }
+
+    public async Task<IEnumerable<PvChatDetailViewModel>> CreatePvChatDetailViewModelAsync(User currentUser, User oppsiteUser, IEnumerable<PvChat>? chats)
+    {
+        List<PvChatDetailViewModel> result = new();
+        foreach (var chat in chats)
+            result.Add(await CreatePvChatDetailViewModelAsync(currentUser, oppsiteUser, chat));
+
+        return result;
+    }
 }
