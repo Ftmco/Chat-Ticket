@@ -24,9 +24,9 @@ public class MessageController : ControllerBase
     }
 
     [HttpGet("LastMessages")]
-    public async Task<IActionResult> GetLastMessagesAsync(string chatToken,int count, long? lastMessageId)
+    public async Task<IActionResult> GetLastMessagesAsync(string chatToken, int count, long? lastMessageId)
     {
-        IEnumerable<MessageViewModel> messages = await _messageGet.GetLastMessagesAsync(chatToken, count,Request.Headers, lastMessageId);
+        IEnumerable<MessageViewModel> messages = await _messageGet.GetLastMessagesAsync(chatToken, count, ChatType.Group, Request.Headers, lastMessageId);
         return Ok(Success("", "", messages));
     }
 
