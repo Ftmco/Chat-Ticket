@@ -23,8 +23,7 @@ public class ChatContext : DbContext
             optionsBuilder.UseNpgsql(ConnectionString);
     }
 
-    public virtual DbSet<ChatBase> ChatBase { get; set; } = null!;
-
+    
     public virtual DbSet<PvChat> PvChat { get; set; } = null!;
 
     public virtual DbSet<Chat> Chat { get; set; } = null!;
