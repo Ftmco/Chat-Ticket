@@ -26,19 +26,19 @@ public class MessageGet : IMessageGet
         return ValueTask.CompletedTask;
     }
 
-    public async Task<long> GetLastMessageIdAsync(Guid chatId)
+    public async Task<long> GetLastMessageIdAsync(Guid chatId, ChatType chatType)
     {
         Message? message = await _messageQuery.MaxAsync(m => m.ChatId == chatId, m => m.MessageId);
         return message == null ? 0 : message.MessageId;
     }
 
-    public async Task<IEnumerable<MessageViewModel>> GetLastMessagesAsync(string chatToken, int count, IHeaderDictionary headers, long? lastMessageId)
+    public async Task<IEnumerable<MessageViewModel>> GetLastMessagesAsync(string chatToken, int count, ChatType chatType, IHeaderDictionary headers, long? lastMessageId)
     {
         var chat = await _chatQuery.GetAsync(c => c.Token == chatToken);
         if (chat != null)
         {
             var user = await _userGet.GetUserBySessionAsync(headers["Auth-Token"].ToString() ?? "");
-            var messageCount = await MessageCountAsync(chat.Id);
+            var messageCount = await MessageCountAsync(chat.Id,chatType);
             var messages = await _messageQuery.GetAllAsync(m => m.ChatId == chat.Id, (int)(messageCount - count), count);
             return user != null ?
                 await _messageViewModel.CreateMessageViewModelAsync(messages, user) :
@@ -64,6 +64,6 @@ public class MessageGet : IMessageGet
         return await GetMessagesAsync(chat.Id, lastMessageId, headers);
     }
 
-    public async Task<long> MessageCountAsync(Guid chatId)
+    public async Task<long> MessageCountAsync(Guid chatId,ChatType chatType)
             => await _messageQuery.CountAsync(m => m.ChatId == chatId);
 }
