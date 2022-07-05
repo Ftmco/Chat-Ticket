@@ -9,11 +9,6 @@ public record ChatBase
     public string Token { get; set; }
 
     [Required]
-    public string Name { get; set; }
-
-    public string Description { get; set; }
-
-    [Required]
     public DateTime CreateDate { get; set; }
 
     [Required]
@@ -21,14 +16,4 @@ public record ChatBase
 
     [Required]
     public short Status { get; set; }
-
-    [Required]
-    public short Type { get; set; }
-
-    //Relationships
-    //Navigation Property
-
-    public virtual ICollection<Chat> Chats { get; set; }
-
-    public virtual ICollection<PvChat> PvChats { get; set; }
 }
