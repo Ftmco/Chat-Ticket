@@ -11,7 +11,7 @@ public class ChatViewModelService : IChatViewModel
         _messageGet = messageGet;
     }
 
-    public ChatTypeViewModel GetChatType(ChatBase chat)
+    public ChatTypeViewModel GetChatType(Chat chat)
             => new(
              Type: (ChatType)chat.Type switch
              {
@@ -21,7 +21,7 @@ public class ChatViewModelService : IChatViewModel
              },
              Code: chat.Type);
 
-    public async Task<ChatDetailViewModel?> CreateChatDetailViewModeAsync(ChatBase? chat)
+    public async Task<ChatDetailViewModel?> CreateChatDetailViewModeAsync(Chat? chat)
     {
         if (chat == null)
             return default;
@@ -38,7 +38,7 @@ public class ChatViewModelService : IChatViewModel
         return chatDetail;
     }
 
-    public async Task<IEnumerable<ChatDetailViewModel>> CreateChatDetailViewModeAsync(IEnumerable<ChatBase> chats)
+    public async Task<IEnumerable<ChatDetailViewModel>> CreateChatDetailViewModeAsync(IEnumerable<Chat> chats)
     {
         List<ChatDetailViewModel> chatDetailViewModels = new();
         foreach (var chat in chats)
@@ -54,5 +54,5 @@ public class ChatViewModelService : IChatViewModel
     {
         GC.SuppressFinalize(this);
         return ValueTask.CompletedTask;
-    }
+    }   
 }

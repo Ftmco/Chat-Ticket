@@ -10,9 +10,9 @@ public interface IChatGet : IAsyncDisposable
 
     Task<ChatDetailViewModel?> GetChatDetailAsync(Guid chatId);
 
-    Task<ChatBase?> GetChatAsync(string chatToken);
+    Task<Chat?> GetChatAsync(string chatToken);
 
-    Task<ChatBase?> GetChatAsync(Guid chatId);
+    Task<Chat?> GetChatAsync(Guid chatId);
 
     Task<IEnumerable<ChatDetailViewModel>> GetUserChatsAsync(IHeaderDictionary headers);
 

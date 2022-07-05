@@ -10,11 +10,8 @@ public class ChatAction : IChatAction
 {
     readonly IUserGet _userGet;
 
-    readonly IBaseCud<ChatBase, ChatContext> _chatBaseCud;
-
-    //readonly IBaseCud<Chat, ChatContext> _chatCud;
-
-    //readonly IBaseQuery<Chat, ChatContext> _chatCud; 
+    readonly IBaseCud<Chat, ChatContext> _ChatCud;
+    
 
     readonly IBaseCud<PvChat, ChatContext> _pvChatCud;
 
@@ -28,12 +25,12 @@ public class ChatAction : IChatAction
 
     readonly IChatGet _chatGet;
 
-    public ChatAction(IUserGet userGet, IBaseCud<ChatBase, ChatContext> chatBaseCud, IChatViewModel chatViewModel,
+    public ChatAction(IUserGet userGet, IBaseCud<Chat, ChatContext> ChatCud, IChatViewModel chatViewModel,
         IBaseCud<ChatsUsers, ChatContext> chatsUsersCud, IChatGet chatGet, IBaseQuery<ChatsUsers, ChatContext> chatsUsersQuery,
         IBaseCud<PvChat, ChatContext> pvChatCud, IBaseQuery<PvChat, ChatContext> pvChatQuery)
     {
         _userGet = userGet;
-        _chatBaseCud = chatBaseCud;
+        _ChatCud = ChatCud;
         _chatViewModel = chatViewModel;
         _chatsUsersCud = chatsUsersCud;
         _chatGet = chatGet;
@@ -55,7 +52,7 @@ public class ChatAction : IChatAction
 
     public async Task<UpsertChatResponse> CreateAsync(UpsertChatViewModel create, Guid userId)
     {
-        ChatBase chat = new()
+        Chat chat = new()
         {
             CreateDate = DateTime.UtcNow,
             Description = create.Description,
@@ -65,7 +62,7 @@ public class ChatAction : IChatAction
             Type = (short)create.Type,
             UpdateDate = DateTime.UtcNow
         };
-        if (await _chatBaseCud.InsertAsync(chat))
+        if (await _ChatCud.InsertAsync(chat))
         {
             await AddUserToChatAsync(chat.Id, userId, ChatUserType.Owner);
             return new UpsertChatResponse(ChatActionStatus.Success, await _chatViewModel.CreateChatDetailViewModeAsync(chat));
@@ -93,31 +90,9 @@ public class ChatAction : IChatAction
 
         if (pvChat == null)
         {
-            ChatBase chatBase = new()
-            {
-                CreateDate = DateTime.UtcNow,
-                Description = "",
-                Name = "",
-                Status = (short)ChatStatus.Active,
-                Token = $"PV-{60.CreateToken()}",
-                Type = (short)ChatType.Pv,
-                UpdateDate = DateTime.UtcNow,
-            };
-            if (await _chatBaseCud.InsertAsync(chatBase))
-            {
-                pvChat = new()
-                {
-                    ChatBaseId = chatBase.Id,
-                    StarterUserId = user.Id,
-                    OppsiteUserId = oppsiteUser.Id
-                };
-                if (!await _pvChatCud.InsertAsync(pvChat))
-                {
-                    await _chatBaseCud.DeleteAsync(chatBase);
-                    return new PvChatResponse(ChatActionStatus.Exception, null);
-                }
-            }
+           
         }
+        return new PvChatResponse(ChatActionStatus.UserNotFound, null);
     }
 
     public async Task<UpsertChatResponse> UpdateAsync(UpsertChatViewModel update, Guid userId)
@@ -132,7 +107,7 @@ public class ChatAction : IChatAction
                 chat.Description = update.Description;
                 chat.Name = update.Name;
 
-                return await _chatBaseCud.UpdateAsync(chat) ?
+                return await _ChatCud.UpdateAsync(chat) ?
                   new UpsertChatResponse(ChatActionStatus.Success, await _chatGet.GetChatDetailAsync(update.Id ?? Guid.Empty)) :
                       new UpsertChatResponse(ChatActionStatus.Exception, null);
             }
