@@ -41,13 +41,18 @@ public class ChatController : ControllerBase
     }
 
     [HttpGet("Chats")]
-    public async Task<IActionResult> GetChatsAsync()
+    public async Task<IActionResult> GetChatsAsync(ChatType chatType)
     {
-        IEnumerable<ChatDetailViewModel> chats = await _chatGet.GetUserChatsAsync(Request.Headers);
-        return Ok(Success("گفتگو های کاربر", "", chats));
+        return chatType switch
+        {
+            ChatType.Group => Ok(Success("گروه ها", "", await _chatGet.GetUserGroupsAsync(Request.Headers))),
+            ChatType.Pv => Ok(Success("گفتگو های خصوصی", "", await _chatGet.GetUserPvChatsAsync(Request.Headers))),
+            ChatType.Channel => Ok(Success("کانال ها", "", await _chatGet.GetUserChannelsAsync(Request.Headers))),
+            _ => throw new NotImplementedException(),
+        };
     }
 
-    [HttpGet("PvChat")]
+    [HttpGet("StartPvChat")]
     public async Task<IActionResult> PvChatAsync(Guid userId)
     {
         PvChatResponse pvChat = await _chatAction.StartPvChatAsync(Request.Headers, userId);
