@@ -20,7 +20,8 @@ public record PvChatResponse(ChatActionStatus Status, PvChatDetailViewModel? Cha
 public enum ChatType
 {
     Group = 0,
-    Pv = 1
+    Pv = 1,
+    Channel =2
 }
 
 public enum ChatStatus
