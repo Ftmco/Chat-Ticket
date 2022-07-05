@@ -4,6 +4,9 @@ public record ChatDetailViewModel(Guid Id, string Token, string Name, string Des
     string CreateDate, string UpdateDate, long LastMessageId,
     long MessageCount, ChatTypeViewModel Type, IEnumerable<FileViewModel>? Avatars);
 
+public record PvChatDetailViewModel(Guid Id, string Token, string Name, string MobileNo, string Email,
+    string CreateDate, string UpdateDate, long LastMessageId, long MessageCount, IEnumerable<FileViewModel>? Avatars);
+
 public record UpsertChatViewModel(Guid? Id, string Name, string Description, ChatType Type);
 
 public record UpsertChatResponse(ChatActionStatus Status, ChatDetailViewModel? Chat);
@@ -11,6 +14,8 @@ public record UpsertChatResponse(ChatActionStatus Status, ChatDetailViewModel? C
 public record ChatTypeViewModel(string Type, short Code);
 
 public record AddUserToChatViewModel(Guid? ChatId, Guid UserId, ChatUserType UserType);
+
+public record PvChatResponse(ChatActionStatus Status, PvChatDetailViewModel? Chat);
 
 public enum ChatType
 {
@@ -31,6 +36,7 @@ public enum ChatActionStatus
     Exception = 2,
     ChatNotFound = 3,
     AccessDenied = 4,
+    UserNotFound = 5
 }
 
 public enum ChatUserType
