@@ -44,7 +44,7 @@ public class MessageAction : IMessageAction
 
             if (await _chatGet.UserInChatAsync(chat.Id, user.Id))
             {
-                var lastMessageId = await _messageGet.GetLastMessageIdAsync(chat.Id);
+                var lastMessageId = await _messageGet.GetLastMessageIdAsync(chat.Id,ChatType.Group);
                 Message message = new()
                 {
                     ChatId = chat.Id,
