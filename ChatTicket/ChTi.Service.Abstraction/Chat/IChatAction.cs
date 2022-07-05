@@ -11,4 +11,6 @@ public interface IChatAction : IAsyncDisposable
     Task<UpsertChatResponse> UpdateAsync(UpsertChatViewModel update,Guid userId);
 
     Task<ChatsUsers?> AddUserToChatAsync(Guid chatId, Guid userId, ChatUserType userType);
+
+    Task<PvChatResponse> StartPvChatAsync(IHeaderDictionary headers, Guid userId);
 }
