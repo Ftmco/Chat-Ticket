@@ -12,7 +12,7 @@ public class ChatController : ControllerBase
 
     readonly IChatAction _chatAction;
 
-    public ChatController(IChatGet chatGet,IChatAction chatAction)
+    public ChatController(IChatGet chatGet, IChatAction chatAction)
     {
         _chatGet = chatGet;
         _chatAction = chatAction;
@@ -22,7 +22,7 @@ public class ChatController : ControllerBase
     public async Task<IActionResult> GetChatDetailAsync(string chatToken)
     {
         ChatDetailViewModel? chat = await _chatGet.GetChatDetailAsync(chatToken);
-        return Ok(chat != null? Success($"جزئیات گفنگو {chat.Name}", "", chat) : Faild(404,"گفنگو یافت نشد",""));
+        return Ok(chat != null ? Success($"جزئیات گفنگو {chat.Name}", "", chat) : Faild(404, "گفنگو یافت نشد", ""));
     }
 
     [HttpPost("Upsert")]
@@ -32,10 +32,10 @@ public class ChatController : ControllerBase
 
         return chat.Status switch
         {
-            ChatActionStatus.Success => Ok(Success("گفتگو با موفقیت ثبت شد","",chat.Chat)),
-            ChatActionStatus.UserNotAuthorized => Ok(Faild(403,"برای ایجاد گفتگو وارد حساب خود شوید","")),
+            ChatActionStatus.Success => Ok(Success("گفتگو با موفقیت ثبت شد", "", chat.Chat)),
+            ChatActionStatus.UserNotAuthorized => Ok(Faild(403, "برای ایجاد گفتگو وارد حساب خود شوید", "")),
             ChatActionStatus.Exception => Ok(ApiException()),
-            ChatActionStatus.ChatNotFound => Ok(Faild(404,"گفتگو یافت نشد","")),
+            ChatActionStatus.ChatNotFound => Ok(Faild(404, "گفتگو یافت نشد", "")),
             _ => Ok(ApiException()),
         };
     }
@@ -44,6 +44,22 @@ public class ChatController : ControllerBase
     public async Task<IActionResult> GetChatsAsync()
     {
         IEnumerable<ChatDetailViewModel> chats = await _chatGet.GetUserChatsAsync(Request.Headers);
-        return Ok(Success("گفتگو های کاربر","",chats));
+        return Ok(Success("گفتگو های کاربر", "", chats));
+    }
+
+    [HttpGet("PvChat")]
+    public async Task<IActionResult> PvChatAsync(Guid userId)
+    {
+        PvChatResponse pvChat = await _chatAction.StartPvChatAsync(Request.Headers, userId);
+        return pvChat.Status switch
+        {
+            ChatActionStatus.Success => Ok(Success("", "", pvChat.Chat)),
+            ChatActionStatus.UserNotAuthorized => Ok(Faild(403, "برای ایجاد گفتگو وارد حساب خود شوید", "")),
+            ChatActionStatus.Exception => Ok(ApiException()),
+            ChatActionStatus.ChatNotFound => Ok(Faild(404, "گفتگو یافت نشد", "")),
+            ChatActionStatus.AccessDenied => Ok(Faild(403, "برای ایجاد گفتگو وارد حساب خود شوید", "")),
+            ChatActionStatus.UserNotFound => Ok(Faild(404, "کاربر مورد نظر یافت نشد", "")),
+            _ => Ok(ApiException()),
+        };
     }
 }
