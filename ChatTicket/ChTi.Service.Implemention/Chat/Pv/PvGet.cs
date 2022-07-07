@@ -24,12 +24,12 @@ public class PvGet : IPvGet
         throw new NotImplementedException();
     }
 
-    public Task<PvChatDetailViewModel?> GetChatDetailAsync(string chatToken)
+    public Task<PvChatResponse?> GetChatDetailAsync(string chatToken)
     {
         throw new NotImplementedException();
     }
 
-    public Task<PvChatDetailViewModel?> GetChatDetailAsync(Guid chatId)
+    public Task<PvChatResponse?> GetChatDetailAsync(Guid chatId)
     {
         throw new NotImplementedException();
     }

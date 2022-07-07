@@ -10,7 +10,7 @@ public interface IPvGet : IChatBaseGet<PvChat>
 {
     Task<IEnumerable<PvChatDetailViewModel>> GetUserPvChatsAsync(IHeaderDictionary headers);
 
-    Task<PvChatDetailViewModel?> GetChatDetailAsync(string chatToken);
+    Task<PvChatResponse> GetChatDetailAsync(string chatToken);
 
-    Task<PvChatDetailViewModel?> GetChatDetailAsync(Guid chatId);
+    Task<PvChatResponse> GetChatDetailAsync(Guid chatId);
 }
