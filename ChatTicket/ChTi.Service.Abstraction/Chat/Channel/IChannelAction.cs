@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChTi.Service.Abstraction.Chat.Channel
+namespace ChTi.Service.Abstraction;
+
+public interface IChannelAction : IAsyncDisposable
 {
-    internal interface IChannelAction
-    {
-    }
 }

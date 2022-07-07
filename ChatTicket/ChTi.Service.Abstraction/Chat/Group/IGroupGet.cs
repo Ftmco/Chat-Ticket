@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChTi.Service.Abstraction.Chat.Group
+namespace ChTi.Service.Abstraction;
+
+public interface IGroupGet : IAsyncDisposable
 {
-    internal class IGroupGet
-    {
-    }
 }

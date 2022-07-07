@@ -82,6 +82,18 @@ public static class Injector
         services.AddTransient<IChatUserAction, ChatUserAction>();
         //services.AddTransient<IMessageViewModel, MessageViewModelService>();
 
+        //services.AddTransient<IMessageGet, MessageGet>();
+        //services.AddTransient<IMessageAction, MessageAction>();
+        //services.AddTransient<IMessageViewModel, MessageViewModelService>();
+        
+        //services.AddTransient<IMessageGet, MessageGet>();
+        //services.AddTransient<IMessageAction, MessageAction>();
+        //services.AddTransient<IMessageViewModel, MessageViewModelService>(); 
+        
+        //services.AddTransient<IMessageGet, MessageGet>();
+        //services.AddTransient<IMessageAction, MessageAction>();
+        //services.AddTransient<IMessageViewModel, MessageViewModelService>();
+
         return Task.FromResult(services);
     }
 
