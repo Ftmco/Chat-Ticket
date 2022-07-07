@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace ChTi.Service.Abstraction;
 
-public interface IChannelGet : IAsyncDisposable
+public interface IChannelGet : IChatBaseGet<ChannelChat>
 {
+    Task<IEnumerable<ChatDetailViewModel>> GetUserChannelsAsync(IHeaderDictionary headers);
+
+    Task<ChatDetailViewModel?> GetChatDetailAsync(string chatToken);
+
+    Task<ChatDetailViewModel?> GetChatDetailAsync(Guid chatId);
 }

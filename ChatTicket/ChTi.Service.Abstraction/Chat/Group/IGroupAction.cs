@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace ChTi.Service.Abstraction;
 
-public interface IGroupAction :IAsyncDisposable
+public interface IGroupAction : IChatBaseAction
 {
 }

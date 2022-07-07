@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChTi.Service.Implemention.Chat.Channel
+namespace ChTi.Service.Implemention;
+
+public class ChannelAction : IChannelAction
 {
-    internal class ChannelAction
+    public ValueTask DisposeAsync()
     {
+        throw new NotImplementedException();
     }
 }

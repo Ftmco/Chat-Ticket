@@ -24,3 +24,12 @@ public interface IChatGet : IAsyncDisposable
 
     Task<bool> UserInChatAsync(Guid chatId, Guid userId);
 }
+
+public interface IChatBaseGet<TChat> : IAsyncDisposable
+{
+    Task<bool> UserInChatAsync(Guid chatId, Guid userId);
+
+    Task<TChat?> GetChatAsync(string chatToken);
+
+    Task<TChat?> GetChatAsync(Guid chatId);
+}

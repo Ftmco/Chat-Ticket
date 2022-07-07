@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace ChTi.Service.Abstraction;
 
-public interface IChannelAction : IAsyncDisposable
+public interface IChannelAction : IChatBaseAction
 {
 }

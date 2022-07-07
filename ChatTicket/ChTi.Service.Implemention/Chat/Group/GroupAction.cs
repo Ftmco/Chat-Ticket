@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChTi.Service.Implemention.Chat.Group
+namespace ChTi.Service.Implemention;
+
+public class GroupAction : IGroupAction
 {
-    internal class GroupAction
+    public ValueTask DisposeAsync()
     {
+        throw new NotImplementedException();
     }
 }
