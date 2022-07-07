@@ -4,9 +4,9 @@ namespace ChTi.Service.Abstraction;
 
 public interface IChatViewModel : IAsyncDisposable
 {
-    Task<ChatDetailViewModel?> CreateChatDetailViewModeAsync(Chat? chat);
+    Task<ChatDetailViewModel?> CreateChatDetailViewModeAsync(GroupChat? chat);
 
-    Task<IEnumerable<ChatDetailViewModel>> CreateChatDetailViewModeAsync(IEnumerable<Chat> chats);
+    Task<IEnumerable<ChatDetailViewModel>> CreateChatDetailViewModeAsync(IEnumerable<GroupChat> chats);
 
     Task<PvChatDetailViewModel> CreatePvChatDetailViewModelAsync(User currentUser, User oppsiteUser, PvChat? chat);
 
@@ -14,5 +14,5 @@ public interface IChatViewModel : IAsyncDisposable
 
     Task<IEnumerable<PvChatDetailViewModel>> CreatePvChatDetailViewModelAsync(User currentUser,User oppsiteUser, IEnumerable<PvChat>? chats);
     
-    ChatTypeViewModel GetChatType(Chat chat);
+    ChatTypeViewModel GetChatType(GroupChat chat);
 }

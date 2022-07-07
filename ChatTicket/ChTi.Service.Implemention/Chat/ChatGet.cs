@@ -8,7 +8,7 @@ public class ChatGet : IChatGet
 {
     readonly IChatViewModel _chatViewModel;
 
-    readonly IBaseQuery<Chat, ChatContext> _chatQuery;
+    readonly IBaseQuery<GroupChat, ChatContext> _chatQuery;
 
     readonly IBaseQuery<PvChat, ChatContext> _pvChatQuery;
 
@@ -16,7 +16,7 @@ public class ChatGet : IChatGet
 
     readonly IUserGet _userGet;
 
-    public ChatGet(IChatViewModel chatViewModel, IBaseQuery<Chat, ChatContext> chatQuery, IUserGet userGet,
+    public ChatGet(IChatViewModel chatViewModel, IBaseQuery<GroupChat, ChatContext> chatQuery, IUserGet userGet,
         IBaseQuery<ChatsUsers, ChatContext> chatsUsersQuery, IBaseQuery<PvChat, ChatContext> pvChatQuery)
     {
         _chatViewModel = chatViewModel;
@@ -32,21 +32,21 @@ public class ChatGet : IChatGet
         return ValueTask.CompletedTask;
     }
 
-    public async Task<Chat?> GetChatAsync(string chatToken)
+    public async Task<GroupChat?> GetChatAsync(string chatToken)
         => await _chatQuery.GetAsync(c => c.Token == chatToken);
 
-    public async Task<Chat?> GetChatAsync(Guid chatId)
+    public async Task<GroupChat?> GetChatAsync(Guid chatId)
         => await _chatQuery.GetAsync(c => c.Id == chatId);
 
     public async Task<ChatDetailViewModel?> GetChatDetailAsync(string chatToken)
     {
-        Chat? chat = await GetChatAsync(chatToken);
+        GroupChat? chat = await GetChatAsync(chatToken);
         return await _chatViewModel.CreateChatDetailViewModeAsync(chat);
     }
 
     public async Task<ChatDetailViewModel?> GetChatDetailAsync(Guid chatId)
     {
-        Chat? chat = await GetChatAsync(chatId);
+        GroupChat? chat = await GetChatAsync(chatId);
         return await _chatViewModel.CreateChatDetailViewModeAsync(chat);
     }
 
@@ -64,7 +64,7 @@ public class ChatGet : IChatGet
             IEnumerable<ChatsUsers>? userChats = await _chatsUsersQuery.GetAllAsync(uc => uc.UserId == user.Id);
             foreach (ChatsUsers? userChat in userChats)
             {
-                Chat? chat = await _chatQuery.GetAsync(c => c.Id == userChat.ChatId);
+                GroupChat? chat = await _chatQuery.GetAsync(c => c.Id == userChat.ChatId);
                 if (chat != null)
                 {
                     ChatDetailViewModel? chatDetail = await _chatViewModel.CreateChatDetailViewModeAsync(chat);

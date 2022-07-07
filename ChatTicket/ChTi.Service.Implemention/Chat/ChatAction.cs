@@ -10,7 +10,7 @@ public class ChatAction : IChatAction
 {
     readonly IUserGet _userGet;
 
-    readonly IBaseCud<Chat, ChatContext> _ChatCud;
+    readonly IBaseCud<GroupChat, ChatContext> _ChatCud;
 
 
     readonly IBaseCud<PvChat, ChatContext> _pvChatCud;
@@ -25,7 +25,7 @@ public class ChatAction : IChatAction
 
     readonly IChatGet _chatGet;
 
-    public ChatAction(IUserGet userGet, IBaseCud<Chat, ChatContext> ChatCud, IChatViewModel chatViewModel,
+    public ChatAction(IUserGet userGet, IBaseCud<GroupChat, ChatContext> ChatCud, IChatViewModel chatViewModel,
         IBaseCud<ChatsUsers, ChatContext> chatsUsersCud, IChatGet chatGet, IBaseQuery<ChatsUsers, ChatContext> chatsUsersQuery,
         IBaseCud<PvChat, ChatContext> pvChatCud, IBaseQuery<PvChat, ChatContext> pvChatQuery)
     {
@@ -52,7 +52,7 @@ public class ChatAction : IChatAction
 
     public async Task<UpsertChatResponse> CreateAsync(UpsertChatViewModel create, Guid userId)
     {
-        Chat chat = new()
+        GroupChat chat = new()
         {
             CreateDate = DateTime.UtcNow,
             Description = create.Description,

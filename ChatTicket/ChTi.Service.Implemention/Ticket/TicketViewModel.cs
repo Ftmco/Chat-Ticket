@@ -7,15 +7,15 @@ public class TicketViewModelService : ITicketViewModel
 {
     readonly IUserGet _userGet;
 
-    readonly IBaseQuery<Chat, ChatContext> _chatQuery;
+    readonly IBaseQuery<GroupChat, ChatContext> _chatQuery;
 
-    readonly IBaseCud<Chat, ChatContext> _chatCud;
+    readonly IBaseCud<GroupChat, ChatContext> _chatCud;
 
     readonly IBaseCud<Ticket, TicketContext> _ticketCud;
 
     readonly IChatUserAction _chatUsers;
 
-    public TicketViewModelService(IUserGet userGet, IBaseQuery<Chat, ChatContext> chatQuery, IBaseCud<Chat, ChatContext> chatCud,
+    public TicketViewModelService(IUserGet userGet, IBaseQuery<GroupChat, ChatContext> chatQuery, IBaseCud<GroupChat, ChatContext> chatCud,
         IBaseCud<Ticket, TicketContext> ticketCud, IChatUserAction chatUsers)
     {
         _userGet = userGet;
@@ -25,9 +25,9 @@ public class TicketViewModelService : ITicketViewModel
         _ticketCud = ticketCud;
     }
 
-    public async Task<Chat?> CreateChatAsync(UpsertChatViewModel create, IEnumerable<AddUserToChatViewModel> addUserToChat)
+    public async Task<GroupChat?> CreateChatAsync(UpsertChatViewModel create, IEnumerable<AddUserToChatViewModel> addUserToChat)
     {
-        Chat chat = new()
+        GroupChat chat = new()
         {
             CreateDate = DateTime.UtcNow,
             Description = create.Description,
@@ -63,7 +63,7 @@ public class TicketViewModelService : ITicketViewModel
 
     public async Task<TicketViewModel> CreateTicketViewModelAsync(Ticket ticket)
     {
-        Chat? chat = await _chatQuery.GetAsync(ticket.ChatId);
+        GroupChat? chat = await _chatQuery.GetAsync(ticket.ChatId);
         if (chat == null)
         {
             chat = await CreateChatAsync(new(Id: null, Name: ticket.Subject,

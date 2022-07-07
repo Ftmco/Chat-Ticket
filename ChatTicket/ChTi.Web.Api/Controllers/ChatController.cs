@@ -19,7 +19,7 @@ public class ChatController : ControllerBase
     }
 
     [HttpGet("ChatDetail")]
-    public async Task<IActionResult> GetChatDetailAsync(string chatToken)
+    public async Task<IActionResult> GetChatDetailAsync(string chatToken,ChatType chatType)
     {
         ChatDetailViewModel? chat = await _chatGet.GetChatDetailAsync(chatToken);
         return Ok(chat != null ? Success($"جزئیات گفنگو {chat.Name}", "", chat) : Faild(404, "گفنگو یافت نشد", ""));
@@ -48,7 +48,7 @@ public class ChatController : ControllerBase
             ChatType.Group => Ok(Success("گروه ها", "", await _chatGet.GetUserGroupsAsync(Request.Headers))),
             ChatType.Pv => Ok(Success("گفتگو های خصوصی", "", await _chatGet.GetUserPvChatsAsync(Request.Headers))),
             ChatType.Channel => Ok(Success("کانال ها", "", await _chatGet.GetUserChannelsAsync(Request.Headers))),
-            _ => throw new NotImplementedException(),
+            _ => Ok(ApiException()),
         };
     }
 
