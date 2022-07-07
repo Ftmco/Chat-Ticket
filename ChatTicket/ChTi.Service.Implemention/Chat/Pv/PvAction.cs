@@ -54,4 +54,23 @@ public class PvAction : IPvAction
 
         return new PvChatResponse(ChatActionStatus.Success, await _chatViewModel.CreatePvChatDetailViewModelAsync(user, oppsiteUser, pvChat));
     }
+
+    #region -- Non Actions --
+
+    public Task<UpsertChatResponse> UpdateAsync(UpsertChatViewModel update, Guid userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<UpsertChatResponse> UpsertChatAsync(UpsertChatViewModel upsert, IHeaderDictionary headers)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<UpsertChatResponse> CreateAsync(UpsertChatViewModel create, Guid userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    #endregion
 }

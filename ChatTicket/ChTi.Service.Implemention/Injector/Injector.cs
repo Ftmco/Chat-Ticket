@@ -29,7 +29,7 @@ public static class Injector
             TicketContext.ConnectionString = cnn;
             options.UseNpgsql(cnn);
         });
-       
+
         await services.AddBaseCudAsync();
         await services.AddBaseQueryAsync();
         await services.AddServicesAsync();
@@ -71,7 +71,6 @@ public static class Injector
         services.AddTransient<ITicketViewModel, TicketViewModelService>();
 
         services.AddTransient<IChatGet, ChatGet>();
-        services.AddTransient<IChatAction, ChatAction>();
         services.AddTransient<IChatViewModel, ChatViewModelService>();
 
         services.AddTransient<IMessageGet, MessageGet>();
@@ -82,16 +81,16 @@ public static class Injector
         services.AddTransient<IChatUserAction, ChatUserAction>();
         //services.AddTransient<IMessageViewModel, MessageViewModelService>();
 
-        //services.AddTransient<IMessageGet, MessageGet>();
-        //services.AddTransient<IMessageAction, MessageAction>();
+        services.AddTransient<IChannelAction, ChannelAction>();
+        services.AddTransient<IChannelGet, ChannelGet>();
         //services.AddTransient<IMessageViewModel, MessageViewModelService>();
-        
-        //services.AddTransient<IMessageGet, MessageGet>();
-        //services.AddTransient<IMessageAction, MessageAction>();
+
+        services.AddTransient<IGroupAction, GroupAction>();
+        services.AddTransient<IGroupGet, GroupGet>();
         //services.AddTransient<IMessageViewModel, MessageViewModelService>(); 
-        
-        //services.AddTransient<IMessageGet, MessageGet>();
-        //services.AddTransient<IMessageAction, MessageAction>();
+
+        services.AddTransient<IPvAction, PvAction>();
+        services.AddTransient<IPvGet, PvGet>();
         //services.AddTransient<IMessageViewModel, MessageViewModelService>();
 
         return Task.FromResult(services);

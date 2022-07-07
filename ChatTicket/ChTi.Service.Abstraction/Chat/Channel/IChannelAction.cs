@@ -8,4 +8,5 @@ namespace ChTi.Service.Abstraction;
 
 public interface IChannelAction : IChatBaseAction
 {
+
 }
