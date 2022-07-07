@@ -26,7 +26,9 @@ public class ChatContext : DbContext
     
     public virtual DbSet<PvChat> PvChat { get; set; } = null!;
 
-    public virtual DbSet<Chat> Chat { get; set; } = null!;
+    public virtual DbSet<GroupChat> GroupChat { get; set; } = null!;
+
+    public virtual DbSet<ChannelChat> ChannelChat { get; set; } = null!;
 
     public virtual DbSet<ChatsUsers> ChatsUsers { get; set; } = null!;
 

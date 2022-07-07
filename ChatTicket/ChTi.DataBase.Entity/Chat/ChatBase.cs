@@ -1,5 +1,6 @@
 ﻿namespace ChTi.DataBase.Entity;
 
+[Index(nameof(Token))]
 public record ChatBase
 {
     [Key]

@@ -3,6 +3,7 @@ using System;
 using ChTi.DataBase.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ChTi.DataBase.Context.Migrations
 {
     [DbContext(typeof(ChatContext))]
-    partial class ChatContextModelSnapshot : ModelSnapshot
+    [Migration("20220707075623_Channel-Index")]
+    partial class ChannelIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,9 +203,6 @@ namespace ChTi.DataBase.Context.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Token");
-
-                    b.HasIndex("StarterUserId", "OppsiteUserId")
-                        .IsUnique();
 
                     b.ToTable("PvChat");
                 });
