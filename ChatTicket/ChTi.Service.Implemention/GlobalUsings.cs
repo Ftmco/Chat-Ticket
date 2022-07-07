@@ -6,3 +6,5 @@ global using MongoDB.Driver;
 global using Identity.Client.Rules;
 global using Identity.Client.Models;
 global using ChTi.DataBase.Context;
+global using Identity.Service.Tools.Code;
+global using Microsoft.AspNetCore.Http;
