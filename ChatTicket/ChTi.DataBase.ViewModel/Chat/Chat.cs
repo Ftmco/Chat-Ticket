@@ -21,7 +21,8 @@ public enum ChatType
 {
     Group = 0,
     Pv = 1,
-    Channel =2
+    Channel = 2,
+    Any = 3,
 }
 
 public enum ChatStatus
