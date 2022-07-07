@@ -1,6 +1,4 @@
-﻿using ChTi.DataBase.Entity;
-using ChTi.Service.Abstraction.Base;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace ChTi.Web.Api.Controllers;
 

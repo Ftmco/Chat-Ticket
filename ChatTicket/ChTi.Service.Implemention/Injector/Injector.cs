@@ -42,9 +42,9 @@ public static class Injector
         services.AddScoped<IBaseQuery<Ticket, TicketContext>, BaseQuery<Ticket, TicketContext>>();
         services.AddScoped<IBaseQuery<Attachment, TicketContext>, BaseQuery<Attachment, TicketContext>>();
         services.AddScoped<IBaseQuery<Attachment, ChatContext>, BaseQuery<Attachment, ChatContext>>();
-        services.AddScoped<IBaseQuery<ChatBase, ChatContext>, BaseQuery<ChatBase, ChatContext>>();
         services.AddScoped<IBaseQuery<GroupChat, ChatContext>, BaseQuery<GroupChat, ChatContext>>();
         services.AddScoped<IBaseQuery<PvChat, ChatContext>, BaseQuery<PvChat, ChatContext>>();
+        services.AddScoped<IBaseQuery<ChannelChat, ChatContext>, BaseQuery<ChannelChat, ChatContext>>();
         services.AddScoped<IBaseQuery<ChatsUsers, ChatContext>, BaseQuery<ChatsUsers, ChatContext>>();
         services.AddScoped<IBaseQuery<Message, ChatContext>, BaseQuery<Message, ChatContext>>();
         return Task.FromResult(services);
@@ -55,9 +55,9 @@ public static class Injector
         services.AddScoped<IBaseCud<Ticket, TicketContext>, BaseCud<Ticket, TicketContext>>();
         services.AddScoped<IBaseCud<Attachment, TicketContext>, BaseCud<Attachment, TicketContext>>();
         services.AddScoped<IBaseCud<Attachment, ChatContext>, BaseCud<Attachment, ChatContext>>();
-        services.AddScoped<IBaseCud<ChatBase, ChatContext>, BaseCud<ChatBase, ChatContext>>();
         services.AddScoped<IBaseCud<GroupChat, ChatContext>, BaseCud<GroupChat, ChatContext>>();
         services.AddScoped<IBaseCud<PvChat, ChatContext>, BaseCud<PvChat, ChatContext>>();
+        services.AddScoped<IBaseCud<ChannelChat, ChatContext>, BaseCud<ChannelChat, ChatContext>>();
         services.AddScoped<IBaseCud<ChatsUsers, ChatContext>, BaseCud<ChatsUsers, ChatContext>>();
         services.AddScoped<IBaseCud<Message, ChatContext>, BaseCud<Message, ChatContext>>();
 
