@@ -1,17 +1,24 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ChTi.Service.Implemention;
+﻿namespace ChTi.Service.Implemention;
 
 public class PvGet : IPvGet
 {
+    readonly IUserGet _userGet;
+
+    readonly IBaseQuery<PvChat, ChatContext> _pvChatQuery;
+
+    readonly IChatViewModel _chatViewModel;
+
+    public PvGet(IUserGet userGet, IBaseQuery<PvChat, ChatContext> pvChatQuery, IChatViewModel chatViewModel)
+    {
+        _userGet = userGet;
+        _pvChatQuery = pvChatQuery;
+        _chatViewModel = chatViewModel;
+    }
+
     public ValueTask DisposeAsync()
     {
-        throw new NotImplementedException();
+        GC.SuppressFinalize(this);
+        return ValueTask.CompletedTask;
     }
 
     public Task<PvChat?> GetChatAsync(string chatToken)
@@ -34,13 +41,16 @@ public class PvGet : IPvGet
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<PvChatDetailViewModel>> GetUserPvChatsAsync(IHeaderDictionary headers)
+    public async Task<IEnumerable<PvChatDetailViewModel>> GetUserPvChatsAsync(IHeaderDictionary headers)
     {
-        throw new NotImplementedException();
+        User? user = await _userGet.GetUserBySessionAsync(headers["Auth-Token"].ToString() ?? "");
+        if (user == null)
+            return new List<PvChatDetailViewModel>();
+
+        IEnumerable<PvChat>? chats = await _pvChatQuery.GetAllAsync(pv => pv.StarterUserId == user.Id || pv.OppsiteUserId == user.Id);
+        return await _chatViewModel.CreatePvChatDetailViewModelAsync(user, chats);
     }
 
-    public Task<bool> UserInChatAsync(Guid chatId, Guid userId)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<bool> UserInChatAsync(Guid chatId, Guid userId)
+        => await _pvChatQuery.AnyAsync(pv => pv.Id == chatId && (pv.StarterUserId == userId || pv.OppsiteUserId == userId));
 }
