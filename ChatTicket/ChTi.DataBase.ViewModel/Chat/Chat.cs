@@ -38,7 +38,8 @@ public enum ChatActionStatus
     Exception = 2,
     ChatNotFound = 3,
     AccessDenied = 4,
-    UserNotFound = 5
+    UserNotFound = 5,
+    Illegal = 6
 }
 
 public enum ChatUserType
