@@ -35,6 +35,9 @@ public class PvAction : IPvAction
         if (oppsiteUser == null)
             return new PvChatResponse(ChatActionStatus.UserNotFound, null);
 
+        if (user.Id == oppsiteUser.Id)
+            return new PvChatResponse(ChatActionStatus.Illegal,null);
+
         PvChat? pvChat = await _pvChatQuery.GetAsync(pv => pv.StarterUserId == user.Id && pv.OppsiteUserId == oppsiteUser.Id);
 
         if (pvChat == null)
